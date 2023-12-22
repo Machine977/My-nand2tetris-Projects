@@ -1,0 +1,15 @@
+Insert number #1 into R0
+Insert number #2 into R1
+i=0
+runningtotal = R0
+
+Loop start, while i<R2
+	runningtotal += R1
+	i+=1
+Loop end
+
+End program
+
+Select Number 1
+Select R0
+Insert number 1 into R0

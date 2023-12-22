@@ -1,0 +1,10 @@
+To create an assembler, we're going to need the following modules:
+
+1:A parser that unpacks each instruction into its underlying fields.
+2:Code that translates each field into its corresponding binary value.
+3:A symbol table.
+4:Main that initialises the I/O files and drives the process.
+
+First develop a basic assembler that translates assembly programs without symbols.
+Second develop the ability to handle symbols
+Third, morph them together.

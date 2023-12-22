@@ -1,0 +1,73 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/04/Fill.asm
+
+// Runs an infinite loop that listens to the keyboard input.
+// When a key is pressed (any key), the program blackens the screen,
+// i.e. writes "black" in every pixel;
+// the screen should remain fully black as long as the key is pressed. 
+// When no key is pressed, the program clears the screen, i.e. writes
+// "white" in every pixel;
+// the screen should remain fully clear as long as no key is pressed.
+
+// Put your code here.
+
+//This program flips all the bits in the matrix to turn on while the user inputs a keystroke.
+//The register set is 16384 to 24575. This is equal to 8192 registers (16384 is register 0, 24575 is register 8191).
+//Think 1-3 has only one number in between it (2), but there's a gap of two numbers (1 to 2, 2 to 3, 3-1=2).
+//So counting 1 as 1, 2 as 2, but not 3 as 3 means we have 2 numbers in between 1 and 3.
+//Register 24576 (final register) is reserved for the keyboard input and does not affect the screen, unlike 16384 <-> 24575.
+
+//Set resolution.
+@8192 //Declare register count. Screen resolution is 256*512=131072 bits. Register count is 131072/16=8192 (16 bits in one register)
+D=A-1 //Minus 1 since later we'll use 16384 + current iteration (which goes up to the register count, 8192). We don't want to reach 16384+8192=register 24576, since that's the keyboard input, so instead we minus by 1.
+@regcount
+M=D
+
+(START)
+@0 //Declare i, assign 0 to it.
+D=A
+@i
+M=D
+
+(INPUT)
+@KBD
+D=M
+@CLEAR
+D;JEQ
+@FILL
+0;JMP
+
+(CLEAR)
+	@i //Get current iteration
+	D=M
+	@SCREEN //Select screen memory map (Register #16384). This register represents the first 16 bits of the screen.
+	A=A+D //Point towards Register #16384, + current iteration.
+	M=0 //Flip current register's bits to 0 (0000 0000 0000 0000 in binary), make them white. Makes 16 pixels white.
+	@regcount //select register count (8192)
+	D=M
+	@i //select current iteration
+	D=D-M //register count - iteration goes into D. When this reaches zero, stop filling.
+	@START //Go back to start if register count - iteration = 0
+	D;JEQ
+	@i //iterate
+	M=M+1
+	@CLEAR //loop back to the start of CLEAR
+	0;JMP
+(FILL)
+	@i //Get current iteration
+	D=M
+	@SCREEN //Select screen memory map (Register #16384). This register represents the first 16 bits of the screen.
+	A=A+D //Point towards Register #16384, + current iteration.
+	M=-1 //Flip current register's bits to -1 (1111 1111 1111 1111 in binary), make them black. Makes 16 pixels black.
+	@regcount //select register count (8192)
+	D=M
+	@i //select current iteration
+	D=D-M //register count - iteration. When this reaches zero, stop filling.
+	@START //Go back to start if register count - iteration = 0
+	D;JEQ
+	@i //iterate
+	M=M+1
+	@FILL //loop back to the start of FILL
+	0;JMP

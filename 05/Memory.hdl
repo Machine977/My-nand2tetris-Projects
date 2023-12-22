@@ -1,0 +1,45 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/05/Memory.hdl
+
+/**
+ * The complete address space of the Hack computer's memory,
+ * including RAM and memory-mapped I/O. 
+ * The chip facilitates read and write operations, as follows:
+ *     Read:  out(t) = Memory[address(t)](t)
+ *     Write: if load(t-1) then Memory[address(t-1)](t) = in(t-1)
+ * In words: the chip always outputs the value stored at the memory 
+ * location specified by address. If load==1, the in value is loaded 
+ * into the memory location specified by address. This value becomes 
+ * available through the out output from the next time step onward.
+ * Address space rules:
+ * Only the upper 16K+8K+1 words of the Memory chip are used. 
+ * Access to address>0x6000 is invalid. Access to any address in 
+ * the range 0x4000-0x5FFF results in accessing the screen memory 
+ * map. Access to address 0x6000 results in accessing the keyboard 
+ * memory map. The behavior in these addresses is described in the 
+ * Screen and Keyboard chip specifications given in the book.
+ */
+
+CHIP Memory {
+    IN in[16], load, address[15];
+    OUT out[16];
+
+    PARTS:
+	//RAM16K
+		Not (in=address[14], out=RAM16KNotOut); //Check if the first address bit is 1 or 0. If 1, the address is > 16383 and is inside either the screen or keyboard memory map. If 0, the target address is in RAM16K. Therefore, when it is 0 flip the input so that it's 1 for the sake of the AND gate to pass.
+		And (a=load, b=RAM16KNotOut, out=RAM16KLoadBit); //If the leftmost bit of the address input is 0 and the load input is 1, assert the RAM16K load bit so that we can load data into the RAM16K register selected.
+		RAM16K (in=in, load=RAM16KLoadBit, address=address[0..13], out=RAM16Kout); //Input the "in" input, store it if the RAM16K memory map is selected and the load bit is 1, and save the output for selection.
+	//Screen
+		Not (in=address[13], out=ScreenNotOut); //Invert input of 2nd bit. We want the 1st bit to be 1, and the second bit to be 0.
+		And (a=address[14], b=ScreenNotOut, out=ScreenCheck); //Check if the 1st address bit is 1 and the 2nd bit is 0.
+		And (a=load, b=ScreenCheck, out=ScreenLoadBit); //Check if the load bit is 1, and if the first two address bits are 1 and 0 (in that order). If so, assert the load bit for the screen memory map.
+		Screen (in=in, load=ScreenLoadBit, address=address[0..12], out=ScreenOut); //Input the "in" input, store it if the screen memory map is selected and the load bit is 1, and save the output for selection.
+	//Keyboard
+		Keyboard (out=KeyboardInput); //Keyboard output.
+		Register (in=KeyboardInput, load=true, out=KeyboardOut); //Store the keyboard output in a register, always.
+	//Select Memory Map To Output in "out"
+		Mux16 (a=ScreenOut, b=KeyboardOut, sel=address[13], out=ScreenKeyboardCheck); //For the 2nd half (register number>=16384), select either the screen or the keyboard memory map using the second address bit, depending on if the 2nd address bit is 0 or 1 respectively.
+		Mux16 (a=RAM16Kout, b=ScreenKeyboardCheck, sel=address[14], out=out); //Select either the RAM16K memory map or the Screen/Keyboard memory map, depending on if the 1st address bit is 0 or 1 respectively.
+}

@@ -1,0 +1,73 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/05/CPU.hdl
+
+/**
+ * The Hack CPU (Central Processing unit), consisting of an ALU,
+ * two registers named A and D, and a program counter named PC.
+ * The CPU is designed to fetch and execute instructions written in 
+ * the Hack machine language. In particular, functions as follows:
+ * Executes the inputted instruction according to the Hack machine 
+ * language specification. The D and A in the language specification
+ * refer to CPU-resident registers, while M refers to the external
+ * memory location addressed by A, i.e. to Memory[A]. The inM input 
+ * holds the value of this location. If the current instruction needs 
+ * to write a value to M, the value is placed in outM, the address 
+ * of the target location is placed in the addressM output, and the 
+ * writeM control bit is asserted. (When writeM==0, any value may 
+ * appear in outM). The outM and writeM outputs are combinational: 
+ * they are affected instantaneously by the execution of the current 
+ * instruction. The addressM and pc outputs are clocked: although they 
+ * are affected by the execution of the current instruction, they commit 
+ * to their new values only in the next time step. If reset==1 then the 
+ * CPU jumps to address 0 (i.e. pc is set to 0 in next time step) rather 
+ * than to the address resulting from executing the current instruction. 
+ */
+
+CHIP CPU {
+
+    IN  inM[16],         // M value input  (M = contents of RAM[A])
+        instruction[16], // Instruction for execution
+        reset;           // Signals whether to re-start the current
+                         // program (reset==1) or continue executing
+                         // the current program (reset==0).
+
+    OUT outM[16],        // M value output
+        writeM,          // Write to M? 
+        addressM[15],    // Address in data memory (of M)
+        pc[15];          // address of next instruction
+
+    PARTS:
+	//D Register
+		And (a=instruction[15], b=instruction[4], out=DLoadBit); //Update D register if op-code = 1 and d2 = 1.
+		DRegister (in=ALUout, load=DLoadBit, out=DRegisterOut);
+	//Instruction Input Mux
+		And (a=instruction[15], b=instruction[5], out=InputMuxSel); //Select ALU output if instruction memory input op-code is 1 and d1 is also 1 (i.e we want to update the A register with the ALU output), otherwise select instruction given by program memory.
+		Mux16 (a=instruction, b=ALUout, sel=InputMuxSel, out=InstructionMuxOut); //Select instruction memory input, unless its op-code is 1 and d1 is 1, in which case select the ALU output.
+	//A Register
+		Not (in=instruction[15], out=AInstruction); //If the op-code is 0, NOT it to 1. The input is an A instruction since the op-code is 0. A instructions update the A register.
+		And (a=instruction[15], b=instruction[5], out=AAndOut); //If the op-code is 1 and d1 is 1, the input is a C instruction that updates the A-Register.
+		Or (a=AInstruction, b=AAndOut, out=ALoadBit); //If either the Op-code is 0, or it is 1 and d1 is also 1 (i.e the ALU output was selected), assert the load bit. Note for later: you can replace AAndOut with InputMuxSel
+		ARegister (in=InstructionMuxOut, load=ALoadBit, out=ARegisterOut, out[0..14]=addressM);
+	//ALU Input Mux
+		And (a=instruction[15], b=instruction[12], out=ALUInputMuxSelector); //Make sure to only select M if op-code is 1 and a=1.
+		Mux16 (a=ARegisterOut, b=inM, sel=ALUInputMuxSelector, out=ALUyInput); //Use "a" from the "instruction" input as selector. Chooses either A or M.
+	//ALU
+		ALU (x=DRegisterOut, y=ALUyInput, zx=instruction[11], nx=instruction[10], zy=instruction[9], ny=instruction[8],
+		f=instruction[7], no=instruction[6], zr=zr, ng=ng, out=ALUout, out=outM); //Input c1-c6.
+	//Create gt (1 when ALU output is greater than 0, otherwise 0)
+		Or (a=ng, b=zr, out=ALUout0orLess); //We want to set gt=1 when output is >0. We do this by checking if ng or zr are 1, and NOTing the result (a NOR gate would've been better here, but it's unavailable).
+		Not (in=ALUout0orLess, out=gt); //gt = greater than 0. Set gt to 1 if ALU output is neither <0 nor 0.
+	//ng/zr/gt (Jump check)
+		And (a=ng, b=instruction[2], out=j1out);
+		And (a=zr, b=instruction[1], out=j2out);
+		And (a=gt, b=instruction[0], out=j3out);
+		Or (a=j1out, b=j2out, out=j1j2out);
+		Or (a=j1j2out, b=j3out, out=JumpCheck);
+		And (a=JumpCheck, b=instruction[15], out=PCLoadBit); //Only load bit if op-code is 1.	
+	//Program Counter
+		PC (in=ARegisterOut, load=PCLoadBit, inc=true, reset=reset, out[0..14]=pc);
+	//writeM
+		And (a=instruction[15], b=instruction[3], out=writeM); //Write to M when opcode is 1 and d3 is 1.
+}

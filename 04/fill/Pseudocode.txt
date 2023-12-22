@@ -1,0 +1,17 @@
+Set register count to 8192.
+i=0
+input
+	if input is 0 (if there is no keyboard input), jump to "clear" loop.
+	else jump to "fill" loop
+end
+
+clear loop start
+	clear space
+	iterate
+	check conditions, if space is clear then go to second instruction (i=0)
+clear loop end
+fill loop start
+	fill action
+	iterate
+	check loop condition, if space is full then go to second instruction (i=0)
+fill loop end
