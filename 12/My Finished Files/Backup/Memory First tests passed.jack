@@ -1,0 +1,61 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Memory.jack
+
+/**
+ * This library provides two services: direct access to the computer's main
+ * memory (RAM), and allocation and recycling of memory blocks. The Hack RAM
+ * consists of 32,768 words, each holding a 16-bit binary number.
+ */ 
+class Memory {
+	static Array Ram; //Ram address space(whole RAM)
+	static Array heap; //Array for the heap space
+	static int freeList; //Free memory space
+	static int freeNext;
+	static int freeSize;
+
+    /** Initializes the class. */
+    function void init() {
+		//Ram init
+		let Ram = 0;
+		
+		//Heap init
+		let heap = 2048; //heap base
+		let freeList = 2048; //base of list of available memory in the heap
+		let freeNext = 2048;
+		let freeSize = 14335;
+		return;
+	}
+
+    /** Returns the RAM value at the given address. */
+    function int peek(int address) {
+		return Ram[address];
+	}
+
+    /** Sets the RAM value at the given address to the given value. */
+    function void poke(int address, int value) {
+		let Ram[address] = value;
+		return;
+	}
+
+    /** Finds an available RAM block of the given size and returns
+     *  a reference to its base address. */
+    function int alloc(int size) {
+		var int Block;
+		let Block = freeNext + 2;
+		
+		let freeNext = freeNext + size + 2;
+//		let freeList = freeList + size + 2;
+		
+		let Block[-2] = freeNext;
+		let Block[-1] = size;
+		return Block;
+	}
+
+    /** De-allocates the given object (cast as an array) by making
+     *  it available for future allocations. */
+    function void deAlloc(Array o) {
+		return;
+	}    
+}

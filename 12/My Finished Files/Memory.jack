@@ -1,0 +1,83 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Memory.jack
+
+/**
+ * This library provides two services: direct access to the computer's main
+ * memory (RAM), and allocation and recycling of memory blocks. The Hack RAM
+ * consists of 32,768 words, each holding a 16-bit binary number.
+ */ 
+class Memory {
+	static Array Ram; //Ram address space(whole RAM)
+	static Array heap; //Array for the heap space
+	static int freeList; //Free memory space
+	static int freeSize;
+
+    /** Initializes the class. */
+    function void init() {
+		//Ram init
+		let Ram = 0;
+		
+		//Heap init
+		let heap = 2048; //heap base
+		let heap[0] = 0;
+		let heap[1] = 14335;
+		
+		//freeList init
+		let freeList = 2048; //base of list of available memory in the heap
+		let freeSize = 14335; //Remaining space in the heap
+		return;
+	}
+
+    /** Returns the RAM value at the given address. */
+    function int peek(int address) {
+		return Ram[address];
+	}
+
+    /** Sets the RAM value at the given address to the given value. */
+    function void poke(int address, int value) {
+		let Ram[address] = value;
+		return;
+	}
+
+    /** Finds an available RAM block of the given size and returns
+     *  a reference to its base address. */
+    function int alloc(int size) {
+		var int BlockBody;
+		var int CurrentBlock;
+		var int flag;
+		
+		//Flag for exiting loop once a block has been found and memory allocated.
+		let flag = 0;
+		
+		let CurrentBlock = freeList; //Start by looking at the current spot in the freeList
+		while (flag = 0) {
+			if (CurrentBlock[1] > (size + 1)){ //If the current block size is at least size+2, the current block is usable.
+				let BlockBody = freeList + 2; //Body starts 2 words after the beginning of the whole block.
+				let BlockBody[-2] = freeList + size + 2; //Top of the block points to the address after the end of the block.
+				let BlockBody[-1] = size; //Size of the block.
+				
+				let freeList = freeList + size + 2; //Move freeList cursor to the next block, since this one was just filled.
+				let freeList[1] = freeSize - (size + 2); //Set the size for where freeList is pointing.
+				let freeSize = freeList[1]; //Update freeSize so it holds this value too.
+				//do Output.printInt(freeList);
+				
+				let flag = 1;
+			}
+			else{ //If the current block size is less than size + 2, move to the next unit in the list.
+				let CurrentBlock = CurrentBlock[0];
+			}
+		}
+
+		return BlockBody;
+	}
+
+    /** De-allocates the given object (cast as an array) by making
+     *  it available for future allocations. */
+    function void deAlloc(Array o) {
+			let freeList[0] = (o-2); //Set the next available entry to point to that of the deallocated object.
+			let freeList = (o-2); //Set the new next available entry to be there too.
+		return;
+	}    
+}

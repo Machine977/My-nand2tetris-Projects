@@ -1,0 +1,184 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Math.jack
+
+/**
+ * A library of commonly used mathematical functions.
+ * Note: Jack compilers implement multiplication and division using OS method calls.
+ */
+class Math {
+	static Array twoToThe;
+
+    /** Initializes the library. */
+    function void init() {
+		//Create array for "bit" function used in multiplication.
+		let twoToThe = Array.new(16);
+		let twoToThe[0] = 1;
+		let twoToThe[1] = 2;
+		let twoToThe[2] = 4;
+		let twoToThe[3] = 8;
+		let twoToThe[4] = 16;
+		let twoToThe[5] = 32;
+		let twoToThe[6] = 64;
+		let twoToThe[7] = 128;
+		let twoToThe[8] = 256;
+		let twoToThe[9] = 512;
+		let twoToThe[10] = 1024;
+		let twoToThe[11] = 2048;
+		let twoToThe[12] = 4096;
+		let twoToThe[13] = 8192;
+		let twoToThe[14] = 16384;
+		let twoToThe[15] = (-32767) - 1;
+		return;
+	}
+
+    /** Returns the absolute value of x. */
+    function int abs(int x) {
+		if (x < 0){
+			let x = -x;
+		}
+		return x;
+    }
+
+    /** Returns the product of x and y. 
+     *  When a Jack compiler detects the multiplication operator '*' in the 
+     *  program's code, it handles it by invoking this method. In other words,
+     *  the Jack expressions x*y and multiply(x,y) return the same value.
+     */
+    function int multiply(int x, int y) {
+		var int sum, shiftedX, i;
+		let sum = 0;
+		let shiftedX = x;
+		let i = 0;
+		while (i < 17){
+			//If y AND twoToThe[i] are not 0 (in other words, if y AND twoToThe[i] are true). E.g 5 (101 in binary) AND twoToThe[0] (1) are true, but 5 AND twoToThe[1] (2, 10 in binary) are false.
+			if (~(Math.bit(y, i) = 0)) {
+				let sum = sum + shiftedX;
+			}
+			let shiftedX = shiftedX + shiftedX;
+			let i = i + 1;
+		}
+		return sum;
+    }
+
+	function boolean bit(int y, int i){
+		var boolean flag;
+		//Verify if y AND y are true.
+		if (twoToThe[i] & y){
+			let flag = true;
+		}
+		else{
+			let flag = false;
+		}
+		return flag;
+	}
+
+    /** Returns the integer part of x/y.
+     *  When a Jack compiler detects the multiplication operator '/' in the 
+     *  program's code, it handles it by invoking this method. In other words,
+     *  the Jack expressions x/y and divide(x,y) return the same value.
+     */
+    function int divide(int x, int y) {
+		var int q;
+		var int negFlag;
+		//Handle negatives
+		let negFlag = 0; //For some reason, I can't use booleans in the if statements, so I'm using 0 and -1 instead. NOT 0 = -1, and 0 = false, -1 = true.
+		if (x < 0){
+			let x = Math.abs(x); //perform calculation based on the positive integer
+			let negFlag = ~negFlag; //Invert the result. If y is also negative, invert it back.
+		}
+		if (y < 0){
+			let y = Math.abs(y);
+			let negFlag = ~negFlag;
+		}
+
+		//Main function
+		if ((y > x)|(y < 0)){
+			return 0;
+		}
+		let q = Math.divide(x, y+y);
+		if ((x - ((q + q) * y)) < y){
+			if (negFlag = 0){ //If negFlag is false, i.e no inversion.
+				return q + q;
+			}
+			else{ //If negFlag is true, i.e invert the answer.
+				return -(q + q);
+			}
+		}
+		else{
+			if (negFlag = 0){
+				return q + q + 1;
+			}
+			else{
+				return -(q + q + 1);
+			}
+		}
+	}
+
+    /** Returns the integer part of the square root of x. */
+    function int sqrt(int x) {
+		var int y, n, j, twoPowerJ;
+		let y = 0;
+		let n = 16; //Number of bits in the architecture
+		let j = (n/2 - 1);
+		while (j > -1){
+			let twoPowerJ = Math.power(2, j);
+			
+			if ( ((Math.power((y + twoPowerJ), 2) < x) | (Math.power((y + twoPowerJ), 2) = x)) //If less than x or equal to x.
+			& (Math.power((y + twoPowerJ), 2) > 0)){ //and greater than 0.
+				let y = y + twoPowerJ;
+			}
+			let n = n - 1;
+			let j = n/2 - 1;
+		}
+		return y;
+	}
+	
+	function int power(int x, int y){
+		//Computes x^y
+		var int sum;
+		let sum = 1;
+		while (y > 0){
+			let sum = sum * x;
+			let y = y - 1;
+		}
+		return sum;
+	}
+
+    /** Returns the greater number. */
+    function int max(int a, int b) {
+		if (b > a){
+			return b;
+		}
+		else{
+			return a;
+		}
+	}
+
+    /** Returns the smaller number. */
+    function int min(int a, int b) {
+		if (b < a){
+			return b;
+		}		
+		else{
+			return a;
+		}
+	}
+	
+    function int modulo(int a, int b) {
+		var int count, result;
+		if (b > a){
+			return a;
+		}		
+		else{
+			let count = 0;
+			let result = a/b;
+			while (~(result*b = a)){ //Multiply the division result with the denominator. If it is not equal to a, keep counting until it is.
+				let count = count + 1;
+				let a = a - 1;
+			}
+			return count;
+		}
+	}
+}

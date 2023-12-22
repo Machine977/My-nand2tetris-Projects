@@ -1,0 +1,456 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Screen.jack
+
+/**
+ * A library of functions for displaying graphics on the screen.
+ * The Hack physical screen consists of 256 rows (indexed 0..255, top to bottom)
+ * of 512 pixels each (indexed 0..511, left to right). The top left pixel on 
+ * the screen is indexed (0,0).
+ */
+class Screen {
+	//Screen is 512 pixels wide, 256 pixels high.
+	static int origin;
+	static int end;
+	static boolean colour;
+
+    /** Initializes the Screen. */
+    function void init() {
+		let origin = 16384; //First word of the screen.
+		let end = 24575; //Final word of the screen.
+		let colour = true;
+		return;
+    }
+
+    /** Erases the entire screen. */
+    function void clearScreen() {
+		var int count;
+		let count = 0;
+		while (origin + count < end){
+			let origin[count] = 0;
+			let count = count + 1;
+		}
+		return;
+	}
+
+    /** Sets the current color, to be used for all subsequent drawXXX commands.
+     *  Black is represented by true, white by false. */
+    function void setColor(boolean b) {
+			if (b){
+				let colour = true; //Black
+			}
+			else{
+				let colour = false; //White
+			}
+		return;
+    }
+
+    /** Draws the (x,y) pixel, using the current color. */
+    function void drawPixel(int x, int y) {
+		var int address, currentvalue, bitindex;
+		let address = origin + ((32 * y) + (x / 16)); //Address of the word to edit
+		let currentvalue = Memory.peek(address); //Current value of the word to edit
+		
+		let bitindex = Math.modulo(x, 16);
+		let bitindex = Math.power(2, bitindex);
+		if (colour){
+			let currentvalue = (currentvalue | bitindex); //Turn on the bit in the bit index.
+		}
+		else{
+			let currentvalue = (currentvalue & (~bitindex)); //Get NOT bitindex and currentvalue. AND them together to get turn off the bitindex bit.
+		}
+		do Memory.poke(address, currentvalue);
+		return;
+    }
+
+    /** Draws a line from pixel (x1,y1) to pixel (x2,y2), using the current color. */
+    function void drawLine(int x1, int y1, int x2, int y2) {
+		var int biggerX, biggerY, smallerX, smallerY;
+		var int dx, dy, a, b, diff;
+		var boolean xEqual, yEqual;
+		var int address, currentvalue, bitindex; //For xEqual, optimised straight vertical line drawing.
+		var int yOffset, xOffset, modX; //For yEqual, optimised horizontal line drawing.
+		var boolean sameWord; //For yEqual. Check if the bigger and the smaller x are in the same word.
+		
+		//Get largest value of x (or equal)
+		if (x1 = x2){
+			let xEqual = true;
+		}
+		else{
+			if (x1 > x2){
+				let biggerX = x1;
+				let smallerX = x2;
+			}
+			else{ //x1 < x2
+				let biggerX = x2;
+				let smallerX = x1;
+			}	
+		}
+		//Get largest value of y (or equal)
+		if (y1 = y2){
+			let yEqual = true;
+		}
+		else{
+			if (y1 > y2){
+				let biggerY = y1;
+				let smallerY = y2;
+			}
+			else{ //y1 < y2
+				let biggerY = y2;
+				let smallerY = y1;
+			}	
+		}
+		
+		if (xEqual & yEqual){//If both x and y are equal, draw a pixel.
+			do Screen.drawPixel(x1, y1);
+			return;
+		}
+		
+		//Handle vertical lines. x1 = x2 (xEqual)
+		if (xEqual){ //Run the functionality in draw pixel, except without repeating the bitindex and address checks.
+			let bitindex = Math.modulo(x1, 16);
+			let bitindex = Math.power(2, bitindex);
+			let address = origin + ((32 * smallerY) + (x1 / 16));
+			while ((smallerY < biggerY) | (smallerY = biggerY)){//While smallerY <= biggerY
+				let currentvalue = Memory.peek(address); //Current value of the word to edit
+				if (colour){
+					let currentvalue = (currentvalue | bitindex); //Turn on the bit in the bit index.
+				}
+				else{
+					let currentvalue = (currentvalue & (~bitindex)); //Get NOT bitindex and currentvalue. AND them together to get turn off the bitindex bit.
+				}
+				do Memory.poke(address, currentvalue);
+				let address = address + 32; //Address of the word to edit increases by 32 each time, since only y changes.				
+				let smallerY = smallerY + 1;
+			}
+			return;
+		}
+		
+		//Handle horizontal lines. y1 = y2 (yEqual)
+		if (yEqual){
+			let yOffset = (y1 * 32); //Register number offset on the y axis. Never changes.
+			let xOffset = (smallerX / 16); //Offset on the x axis. Increased by 1 each time while loop runs, since the register to modify is increased by 1.
+			let modX = Math.modulo(smallerX, 16); //Find out if smaller X value mod 16 is 0 or not. If it is, draw full line in word. If not, draw pixel by pixel.
+			if ((biggerX/16) = (smallerX/16)){
+				let sameWord = true;
+			}
+			else{
+				let sameWord = false;
+			}
+			
+			if (sameWord){//If smallerX and biggerX are in the same word.
+				let biggerX = Math.modulo(biggerX, 16);
+				let smallerX = Math.modulo(smallerX, 16);
+				let bitindex = (Math.power(2, biggerX)*2) - (Math.power(2, smallerX));
+				
+				let address = origin + (yOffset + xOffset);
+				let currentvalue = Memory.peek(address); //Current value of the word to edit
+				if (colour){
+				let currentvalue = (currentvalue | bitindex); //Turn on the bit in the bit index.
+				}
+				else{
+				let currentvalue = (currentvalue & (~bitindex)); //Get NOT bitindex and currentvalue. AND them together to get turn off the bitindex bit.
+				}
+
+				let origin[yOffset + xOffset] = currentvalue; //Same as a poke, but faster because no function call.	
+			}
+			else{//biggerX and smallerX are not located within the same word. Fill the leftmost word with the correct bits, fill all words in between with -1 (or 0 if colour is false), and then fill the rightmost word.
+				while ((smallerX < biggerX) | (smallerX = biggerX)){ //While smallerX <= biggerX.
+					if ((((smallerX + 15) < biggerX) | ((smallerX + 15) = biggerX)) & (modX = 0)){ //If smallerX + 15 <= biggerX. E.g if x1 = 0 and x2 = 35, fill 0-15 and 16-31 with -1, and then draw each pixel for 32-35. If x1 = 3 and x2 = 35, draw 3-15, fill 16-31, draw 32-35. Manual draw in else statement.
+						let origin[yOffset + xOffset] = colour; //If colour = true, then the line is set to -1. If it is false, it is set to 0. This matches the desired colour.
+						let smallerX = smallerX + 16;
+						let xOffset = xOffset + 1;
+					}
+					else{
+						//modX = 0 (right side) or smallerX + 15 > biggerX (right side). Left side first.
+						if (modX = 0){//right side
+							let modX = Math.modulo(biggerX, 16);
+							let modX = modX + 1;
+							let bitindex = (Math.power(2, modX))-1;
+							let modX = 1; //Set to non-zero so that the loop ends, since this is the final part of the line to draw.
+							let smallerX = biggerX+1;
+						}
+						else{//left side
+							let bitindex = -(Math.power(2, modX));
+							let smallerX = smallerX + (16 - modX);
+							let modX = 0; //Set to zero so that the while-if condition will trigger once the left has been drawn.
+						}
+						let address = origin + (yOffset + xOffset);
+						
+						let currentvalue = Memory.peek(address); //Current value of the word to edit
+						if (colour){
+							let currentvalue = (currentvalue | bitindex); //Turn on the bit in the bit index.
+						}
+						else{
+							let currentvalue = (currentvalue & (~bitindex)); //Get NOT bitindex and currentvalue. AND them together to get turn off the bitindex bit.
+						}
+						
+						let origin[yOffset + xOffset] = currentvalue;
+						let xOffset = xOffset + 1;
+					}
+				}
+			}
+			return;
+		}
+		
+		//Line is neither horizontal nor vertical
+		let dx = biggerX - smallerX;
+		let dy = biggerY - smallerY;
+		
+		let a = 0;
+		let b = 0;
+		let diff = 0;
+		if (((x1 < x2) &(y1 < y2)) | ((x1 > x2) & (y1 > y2))){//If drawing down-right or up-left.
+			while (((a < dx) | (a = dx)) & ((b < dy) | (b = dy))){
+				do Screen.drawPixel(smallerX + a, smallerY + b);
+				if (diff < 0){
+					let a = a + 1;
+					let diff = diff + dy;
+				}
+				else{
+					let b = b + 1;
+					let diff = diff - dx;			
+				}
+			}
+		}
+		else{
+			while (((a < dx) | (a = dx)) & ((b < dy) | (b = dy))){
+				do Screen.drawPixel(biggerX - a, smallerY + b);
+				if (diff < 0){
+					let a = a + 1;
+					let diff = diff + dy;
+				}
+				else{
+					let b = b + 1;
+					let diff = diff - dx;			
+				}
+			}
+		}
+
+		return;
+    }
+
+    /** Draws a filled rectangle whose top left corner is (x1, y1)
+     * and bottom right corner is (x2,y2), using the current color. */
+    function void drawRectangle(int x1, int y1, int x2, int y2) {
+		var int biggerX, biggerY, smallerX, smallerY;
+		var int smallerXmod, biggerXmod, smallerYmod, biggerYmod, yCount;
+		var boolean xEqual, yEqual;
+		var int address, currentvalue, bitindex; //For xEqual, optimised straight vertical line drawing.
+		var int yOffset, xOffset, modX; //For yEqual, optimised horizontal line drawing.
+		var boolean sameWord; //For yEqual. Check if the bigger and the smaller x are in the same word.
+
+		//Get largest value of x (or equal)
+		if (x1 = x2){
+			let xEqual = true;
+		}
+		else{
+			if (x1 > x2){
+				let biggerX = x1;
+				let smallerX = x2;
+			}
+			else{ //x1 < x2
+				let biggerX = x2;
+				let smallerX = x1;
+			}	
+		}
+		//Get largest value of y (or equal)
+		if (y1 = y2){
+			let yEqual = true;
+		}
+		else{
+			if (y1 > y2){
+				let biggerY = y1;
+				let smallerY = y2;
+			}
+			else{ //y1 < y2
+				let biggerY = y2;
+				let smallerY = y1;
+			}	
+		}
+		
+		if (xEqual & yEqual){//If both x and y are equal, draw a pixel.
+			do Screen.drawPixel(x1, y1);
+			return;
+		}
+		
+		if (xEqual | yEqual){//If either x or y are equal, draw a line.
+			do Screen.drawLine(x1, y1, x2, y2);
+			return;
+		}
+
+		//Handle regular lines.
+		let yOffset = (smallerY * 32); //Register number offset on the y axis.
+		let xOffset = (smallerX / 16); //Offset on the x axis. Increased by 1 each time while loop runs, since the register to modify is increased by 1.
+		let modX = Math.modulo(smallerX, 16); //Find out if smaller X value mod 16 is 0 or not. If it is, draw full line in word. If not, draw pixel by pixel.
+		
+		//Check if the bigger x and the smaller x are in the same word or not.
+		if ((biggerX/16) = (smallerX/16)){
+			let sameWord = true;
+		}
+		else{
+			let sameWord = false;
+		}
+		
+		if (sameWord){
+			let biggerXmod = Math.modulo(biggerX, 16);
+			let smallerXmod = Math.modulo(smallerX, 16);
+			let bitindex = (Math.power(2, biggerXmod)*2) - (Math.power(2, smallerXmod));
+			
+			let yCount = smallerY;
+			
+			while (yCount < (biggerY + 1)){
+				
+				let currentvalue = origin[yOffset + xOffset]; //Current value of the word to edit
+				if (colour){
+					let currentvalue = (currentvalue | bitindex); //Turn on the bit in the bit index.
+				}
+				else{
+					let currentvalue = (currentvalue & (~bitindex)); //Get NOT bitindex and currentvalue. AND them together to get turn off the bitindex bit.
+				}
+
+				
+				let origin[yOffset + xOffset] = currentvalue; //Same as a poke, but faster because no function call.	
+				let yOffset = yOffset + 32;
+				let yCount = yCount + 1;
+			}
+			return;
+		}
+		//left side
+		let smallerXmod = Math.modulo(smallerX, 16);
+		if (~(smallerXmod = 0)){ //E.g if smallerXmod = 16, don't do anything since we're drawing the full word.
+			
+			let bitindex = -(Math.power(2, smallerXmod));
+		
+			let yCount = smallerY;
+			while (yCount < (biggerY + 1)){
+				
+				let currentvalue = origin[yOffset + xOffset]; //Current value of the word to edit
+				if (colour){
+					let currentvalue = (currentvalue | bitindex); //Turn on the bit in the bit index.
+				}
+				else{
+					let currentvalue = (currentvalue & (~bitindex)); //Get NOT bitindex and currentvalue. AND them together to get turn off the bitindex bit.
+				}
+
+				
+				let origin[yOffset + xOffset] = currentvalue; //Same as a poke, but faster because no function call.	
+				let yOffset = yOffset + 32;
+				let yCount = yCount + 1;
+			}		
+		
+		
+			let yOffset = (smallerY * 32); //Reset yOffset.
+			let smallerX = smallerX + (16 - smallerXmod);// E.g if smallerX was 14, make it 16.
+			let xOffset = xOffset + 1;
+		}
+		//Middle.
+		//do Output.printInt(biggerX);
+		while ((biggerX - smallerX) > 14){
+			let yCount = smallerY;
+			while (yCount < (biggerY + 1)){
+				if (colour){
+					let currentvalue = -1; //Turn on the bit in the bit index.
+				}
+				else{
+					let currentvalue = 0; //Get NOT bitindex and currentvalue. AND them together to get turn off the bitindex bit.
+				}
+				
+				let origin[yOffset + xOffset] = currentvalue; //Same as a poke, but faster because no function call.	
+				let yOffset = yOffset + 32;
+				let yCount = yCount + 1;
+			}
+			let xOffset = xOffset + 1;
+			let smallerX = smallerX + 16;
+			let yOffset = (smallerY * 32); //Reset yOffset.
+		}
+		//right
+		let biggerXmod = Math.modulo(biggerX+1, 16); //If biggerX is 47 for example, we don't want to draw anything on the right side.
+		if (~(biggerXmod = 0)){ //If biggerXmod = 0, don't do anything since biggerX ends at the end of a word.
+			
+			let bitindex = (Math.power(2, biggerXmod))-1;
+			
+			//if biggerXmod is 15 it causes an overflow so do it manually.
+			if (biggerXmod = 15){
+				if (colour){
+					let bitindex = -1;
+				}
+				else{
+					let bitindex = 0;
+				}
+			}
+
+		
+			let yCount = smallerY;
+			while (yCount < (biggerY + 1)){
+				
+				let currentvalue = origin[yOffset + xOffset]; //Current value of the word to edit
+				if (colour){
+					let currentvalue = (currentvalue | bitindex); //Turn on the bit in the bit index.
+				}
+				else{
+					let currentvalue = (currentvalue & (~bitindex)); //Get NOT bitindex and currentvalue. AND them together to get turn off the bitindex bit.
+				}
+
+				
+				let origin[yOffset + xOffset] = currentvalue; //Same as a poke, but faster because no function call.	
+				let yOffset = yOffset + 32;
+				let yCount = yCount + 1;
+			}		
+		
+		
+			//let yOffset = (smallerY * 32); //Reset yOffset.
+			//let smallerX = smallerX + (16 - smallerXmod);// E.g if smallerX was 14, make it 16.
+			//let xOffset = xOffset + 1; unnecessary
+		}		
+		return;
+		
+		
+		
+		
+		
+		
+		
+		//Vertically
+//		while (x1 < x2){
+//			do Screen.drawLine(x1, y1, x1, y2);
+//			let x1 = x1 + 1;
+//		}
+//		
+//		while (x2 < x1){
+//			do Screen.drawLine(x2, y1, x1, y1);
+//			let x2 = x2 + 1;
+//			
+//		}
+//		return;
+		
+		//Horizontally
+//		while (y1 < y2){
+//			do Screen.drawLine(x1, y1, x2, y1);
+//			let y1 = y1 + 1;
+//		}
+//		
+//		while (y2 < y1){
+//			do Screen.drawLine(x1, y2, x2, y2);
+//			let y2 = y2 + 1;
+//		}
+//		return;
+    }
+
+    /** Draws a filled circle of radius r<=181 around (x,y), using the current color. */
+    function void drawCircle(int x, int y, int r) {
+		var int dy;
+		var int rSquared, dySquared, rDyRoot;
+		
+		let dy = -r;
+		let rSquared = r*r;
+		while ((dy < r) | (dy = r)){
+			let dySquared = dy*dy;
+			let rDyRoot = Math.sqrt(rSquared - dySquared);
+			do Screen.drawLine(x - rDyRoot, y+dy, x + rDyRoot, y+dy);
+			let dy = dy + 1;
+		}
+		return;
+    }
+}
