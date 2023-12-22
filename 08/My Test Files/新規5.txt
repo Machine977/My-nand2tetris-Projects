@@ -1,0 +1,60 @@
+//Return Command
+//Pop the stack, put it into ARG[0] and set the stack pointer to ARG[0]+1
+@SP
+A=M-1
+D=M
+@ARG
+A=M
+M=D
+D=A+1
+@SP
+M=D
+
+//Get return address, store it in R13.
+@5
+D=A
+@LCL
+D=M-D
+@R13
+M=D
+
+//Restore state
+	//Restore THAT (LCL - 1)
+	@LCL
+	A=M-1
+	D=M
+	@THAT
+	M=D
+
+	//Restore THIS (LCL - 2)
+	@LCL
+	A=M-1
+	A=A-1
+	D=M
+	@THIS
+	M=D
+
+	//Restore ARG (LCL - 3)
+	@3
+	D=A
+	@LCL
+	A=M-D
+	D=M
+	@ARG
+	M=D
+
+	//Restore LCL (LCL - 1)
+	@4
+	D=A
+	@LCL
+	A=M-D
+	D=M
+	@LCL
+	M=D
+
+//Return to next instruction.
+@R13
+D=M
+M=0
+A=D
+0;JMP

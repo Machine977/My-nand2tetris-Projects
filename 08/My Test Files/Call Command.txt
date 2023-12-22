@@ -1,0 +1,46 @@
+//Call function
+
+//Save return address
+@MyReturnAddress
+D=A
+@SP
+A=M
+M=D
+//Backup LCL
+@LCL
+D=M
+@SP
+AM=M+1
+M=D
+//Backup ARG
+@ARG
+D=M
+@SP
+AM=M+1
+M=D
+//Backup THIS
+@THIS
+D=M
+@SP
+AM=M+1
+M=D
+//Backup THAT
+@THAT
+D=M
+@SP
+AM=M+1
+M=D
+//Set new ARG
+@MyArgumentCount
+D=A
+@5
+D=A+D
+@SP
+A=A-D
+D=A
+@ARG
+M=D
+//Actually go to the function
+@Functionname (callstring[1])
+0;JMP
+(MyReturnAddress)

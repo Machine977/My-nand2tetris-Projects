@@ -1,0 +1,18 @@
+Pseudocode
+
+Print all VM commands into one long file.
+
+At the start of each function have a (LABEL)
+At the end of each function have:
+@R13
+A=M
+0;JMP
+
+And then make R13 be your return address.
+
+
+Return addresses
+
+262
+268
+274

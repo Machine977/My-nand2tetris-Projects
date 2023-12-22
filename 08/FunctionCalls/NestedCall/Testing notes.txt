@@ -1,0 +1,1 @@
+Works up to the first return command (at the bottom), haven't tested the rest. Command number 94, finished constant 23 -> constant 15.
