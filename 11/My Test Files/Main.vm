@@ -1,0 +1,13 @@
+function Main.main 0
+push constant 0
+pop static 0
+push constant 18
+push static 0
+add
+push constant 256
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+return

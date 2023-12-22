@@ -1,0 +1,4269 @@
+function Tetronimo.OBlocknew 0
+push constant 25
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+pop this 0
+push argument 1
+pop this 1
+push this 0
+push constant 32
+add
+pop this 2
+push this 1
+push constant 32
+add
+pop this 3
+push constant 2
+pop this 22
+push constant 2
+pop this 23
+push this 0
+push this 1
+call Block.new 2
+pop this 4
+push this 0
+push constant 16
+add
+push this 1
+call Block.new 2
+pop this 5
+push this 0
+push this 1
+push constant 16
+add
+call Block.new 2
+pop this 6
+push this 0
+push constant 16
+add
+push this 1
+push constant 16
+add
+call Block.new 2
+pop this 7
+push pointer 0
+return
+function Tetronimo.LBlocknew 0
+push constant 25
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+pop this 0
+push argument 1
+pop this 1
+push this 0
+push constant 48
+add
+pop this 2
+push this 1
+push constant 32
+add
+pop this 3
+push constant 3
+pop this 22
+push constant 2
+pop this 23
+push this 0
+push this 1
+call Block.new 2
+pop this 4
+push this 0
+push constant 16
+add
+push this 1
+call Block.new 2
+pop this 5
+push this 0
+push constant 32
+add
+push this 1
+call Block.new 2
+pop this 6
+push this 0
+push this 1
+push constant 16
+add
+call Block.new 2
+pop this 7
+push pointer 0
+return
+function Tetronimo.JBlocknew 0
+push constant 25
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+pop this 0
+push argument 1
+pop this 1
+push this 0
+push constant 48
+add
+pop this 2
+push this 1
+push constant 32
+add
+pop this 3
+push constant 3
+pop this 22
+push constant 2
+pop this 23
+push this 0
+push this 1
+call Block.new 2
+pop this 4
+push this 0
+push this 1
+push constant 16
+add
+call Block.new 2
+pop this 5
+push this 0
+push constant 16
+add
+push this 1
+push constant 16
+add
+call Block.new 2
+pop this 6
+push this 0
+push constant 32
+add
+push this 1
+push constant 16
+add
+call Block.new 2
+pop this 7
+push pointer 0
+return
+function Tetronimo.IBlocknew 0
+push constant 25
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+pop this 0
+push argument 1
+pop this 1
+push this 0
+push constant 64
+add
+pop this 2
+push this 1
+push constant 16
+add
+pop this 3
+push constant 4
+pop this 22
+push constant 1
+pop this 23
+push this 0
+push this 1
+call Block.new 2
+pop this 4
+push this 0
+push constant 16
+add
+push this 1
+call Block.new 2
+pop this 5
+push this 0
+push constant 32
+add
+push this 1
+call Block.new 2
+pop this 6
+push this 0
+push constant 48
+add
+push this 1
+call Block.new 2
+pop this 7
+push pointer 0
+return
+function Tetronimo.TBlocknew 0
+push constant 25
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+pop this 0
+push argument 1
+pop this 1
+push this 0
+push constant 48
+add
+pop this 2
+push this 1
+push constant 32
+add
+pop this 3
+push constant 3
+pop this 22
+push constant 2
+pop this 23
+push this 0
+push this 1
+call Block.new 2
+pop this 4
+push this 0
+push constant 16
+add
+push this 1
+call Block.new 2
+pop this 5
+push this 0
+push constant 32
+add
+push this 1
+call Block.new 2
+pop this 6
+push this 0
+push constant 16
+add
+push this 1
+push constant 16
+add
+call Block.new 2
+pop this 7
+push pointer 0
+return
+function Tetronimo.SBlocknew 0
+push constant 25
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+pop this 0
+push argument 1
+pop this 1
+push this 0
+push constant 48
+add
+pop this 2
+push this 1
+push constant 32
+add
+pop this 3
+push constant 3
+pop this 22
+push constant 2
+pop this 23
+push this 0
+push constant 16
+add
+push this 1
+call Block.new 2
+pop this 4
+push this 0
+push constant 32
+add
+push this 1
+call Block.new 2
+pop this 5
+push this 0
+push this 1
+push constant 16
+add
+call Block.new 2
+pop this 6
+push this 0
+push constant 16
+add
+push this 1
+push constant 16
+add
+call Block.new 2
+pop this 7
+push pointer 0
+return
+function Tetronimo.ZBlocknew 0
+push constant 25
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+pop this 0
+push argument 1
+pop this 1
+push this 0
+push constant 48
+add
+pop this 2
+push this 1
+push constant 32
+add
+pop this 3
+push constant 3
+pop this 22
+push constant 2
+pop this 23
+push this 0
+push this 1
+call Block.new 2
+pop this 4
+push this 0
+push constant 16
+add
+push this 1
+call Block.new 2
+pop this 5
+push this 0
+push constant 16
+add
+push this 1
+push constant 16
+add
+call Block.new 2
+pop this 6
+push this 0
+push constant 32
+add
+push this 1
+push constant 16
+add
+call Block.new 2
+pop this 7
+push pointer 0
+return
+function Tetronimo.moveup 0
+push argument 0
+pop pointer 0
+push this 1
+push constant 15
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 1
+pop this 9
+push this 1
+push constant 16
+sub
+pop this 1
+push this 3
+push constant 16
+sub
+pop this 3
+push constant 0
+pop this 8
+label WHILE_EXP0
+push this 8
+push constant 4
+lt
+not
+if-goto WHILE_END0
+push this 4
+call Block.getBlockY 1
+pop this 10
+push this 5
+call Block.getBlockY 1
+pop this 11
+push this 6
+call Block.getBlockY 1
+pop this 12
+push this 7
+call Block.getBlockY 1
+pop this 13
+push this 10
+push this 9
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push this 4
+call Block.moveup 1
+pop temp 0
+push this 8
+push constant 1
+add
+pop this 8
+label IF_FALSE1
+push this 11
+push this 9
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push this 5
+call Block.moveup 1
+pop temp 0
+push this 8
+push constant 1
+add
+pop this 8
+label IF_FALSE2
+push this 12
+push this 9
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push this 6
+call Block.moveup 1
+pop temp 0
+push this 8
+push constant 1
+add
+pop this 8
+label IF_FALSE3
+push this 13
+push this 9
+eq
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push this 7
+call Block.moveup 1
+pop temp 0
+push this 8
+push constant 1
+add
+pop this 8
+label IF_FALSE4
+push this 9
+push constant 16
+add
+pop this 9
+goto WHILE_EXP0
+label WHILE_END0
+label IF_FALSE0
+push constant 0
+return
+function Tetronimo.moveleft 0
+push argument 0
+pop pointer 0
+push this 0
+push constant 15
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 4
+call Block.getBlockX 1
+pop this 14
+push this 5
+call Block.getBlockX 1
+pop this 15
+push this 6
+call Block.getBlockX 1
+pop this 16
+push this 7
+call Block.getBlockX 1
+pop this 17
+push this 4
+call Block.getBlockY 1
+pop this 18
+push this 5
+call Block.getBlockY 1
+pop this 19
+push this 6
+call Block.getBlockY 1
+pop this 20
+push this 7
+call Block.getBlockY 1
+pop this 21
+push this 14
+push this 15
+push this 16
+push this 17
+push this 18
+push this 19
+push this 20
+push this 21
+push constant 1
+call Tetronimo.collisionDetectMove 9
+pop this 24
+push this 24
+push constant 1
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push this 0
+pop this 9
+push this 0
+push constant 16
+sub
+pop this 0
+push this 2
+push constant 16
+sub
+pop this 2
+push constant 0
+pop this 8
+label WHILE_EXP0
+push this 8
+push constant 4
+lt
+not
+if-goto WHILE_END0
+push this 4
+call Block.getBlockX 1
+pop this 10
+push this 5
+call Block.getBlockX 1
+pop this 11
+push this 6
+call Block.getBlockX 1
+pop this 12
+push this 7
+call Block.getBlockX 1
+pop this 13
+push this 10
+push this 9
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push this 4
+call Block.moveleft 1
+pop temp 0
+push this 8
+push constant 1
+add
+pop this 8
+label IF_FALSE2
+push this 11
+push this 9
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push this 5
+call Block.moveleft 1
+pop temp 0
+push this 8
+push constant 1
+add
+pop this 8
+label IF_FALSE3
+push this 12
+push this 9
+eq
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push this 6
+call Block.moveleft 1
+pop temp 0
+push this 8
+push constant 1
+add
+pop this 8
+label IF_FALSE4
+push this 13
+push this 9
+eq
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push this 7
+call Block.moveleft 1
+pop temp 0
+push this 8
+push constant 1
+add
+pop this 8
+label IF_FALSE5
+push this 9
+push constant 16
+add
+pop this 9
+goto WHILE_EXP0
+label WHILE_END0
+label IF_FALSE1
+label IF_FALSE0
+push constant 0
+pop this 24
+push constant 0
+return
+function Tetronimo.movedown 0
+push argument 0
+pop pointer 0
+push this 3
+push constant 241
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 4
+call Block.getBlockX 1
+pop this 14
+push this 5
+call Block.getBlockX 1
+pop this 15
+push this 6
+call Block.getBlockX 1
+pop this 16
+push this 7
+call Block.getBlockX 1
+pop this 17
+push this 4
+call Block.getBlockY 1
+pop this 18
+push this 5
+call Block.getBlockY 1
+pop this 19
+push this 6
+call Block.getBlockY 1
+pop this 20
+push this 7
+call Block.getBlockY 1
+pop this 21
+push this 14
+push this 15
+push this 16
+push this 17
+push this 18
+push this 19
+push this 20
+push this 21
+push constant 2
+call Tetronimo.collisionDetectMove 9
+pop this 24
+push this 24
+push constant 1
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push this 3
+pop this 9
+push this 1
+push constant 16
+add
+pop this 1
+push this 3
+push constant 16
+add
+pop this 3
+push constant 0
+pop this 8
+label WHILE_EXP0
+push this 8
+push constant 4
+lt
+not
+if-goto WHILE_END0
+push this 4
+call Block.getBlockY 1
+pop this 10
+push this 5
+call Block.getBlockY 1
+pop this 11
+push this 6
+call Block.getBlockY 1
+pop this 12
+push this 7
+call Block.getBlockY 1
+pop this 13
+push this 10
+push this 9
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push this 4
+call Block.movedown 1
+pop temp 0
+push this 8
+push constant 1
+add
+pop this 8
+label IF_FALSE2
+push this 11
+push this 9
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push this 5
+call Block.movedown 1
+pop temp 0
+push this 8
+push constant 1
+add
+pop this 8
+label IF_FALSE3
+push this 12
+push this 9
+eq
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push this 6
+call Block.movedown 1
+pop temp 0
+push this 8
+push constant 1
+add
+pop this 8
+label IF_FALSE4
+push this 13
+push this 9
+eq
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push this 7
+call Block.movedown 1
+pop temp 0
+push this 8
+push constant 1
+add
+pop this 8
+label IF_FALSE5
+push this 9
+push constant 16
+sub
+pop this 9
+goto WHILE_EXP0
+label WHILE_END0
+goto IF_END1
+label IF_FALSE1
+push constant 0
+pop this 24
+push constant 1
+return
+label IF_END1
+goto IF_END0
+label IF_FALSE0
+push constant 0
+pop this 24
+push constant 1
+return
+label IF_END0
+push constant 0
+pop this 24
+push constant 0
+return
+function Tetronimo.moveright 0
+push argument 0
+pop pointer 0
+push this 2
+push constant 497
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 4
+call Block.getBlockX 1
+pop this 14
+push this 5
+call Block.getBlockX 1
+pop this 15
+push this 6
+call Block.getBlockX 1
+pop this 16
+push this 7
+call Block.getBlockX 1
+pop this 17
+push this 4
+call Block.getBlockY 1
+pop this 18
+push this 5
+call Block.getBlockY 1
+pop this 19
+push this 6
+call Block.getBlockY 1
+pop this 20
+push this 7
+call Block.getBlockY 1
+pop this 21
+push this 14
+push this 15
+push this 16
+push this 17
+push this 18
+push this 19
+push this 20
+push this 21
+push constant 3
+call Tetronimo.collisionDetectMove 9
+pop this 24
+push this 24
+push constant 1
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push this 2
+pop this 9
+push this 0
+push constant 16
+add
+pop this 0
+push this 2
+push constant 16
+add
+pop this 2
+push constant 0
+pop this 8
+label WHILE_EXP0
+push this 8
+push constant 4
+lt
+not
+if-goto WHILE_END0
+push this 4
+call Block.getBlockX 1
+pop this 10
+push this 5
+call Block.getBlockX 1
+pop this 11
+push this 6
+call Block.getBlockX 1
+pop this 12
+push this 7
+call Block.getBlockX 1
+pop this 13
+push this 10
+push this 9
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push this 4
+call Block.moveright 1
+pop temp 0
+push this 8
+push constant 1
+add
+pop this 8
+label IF_FALSE2
+push this 11
+push this 9
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push this 5
+call Block.moveright 1
+pop temp 0
+push this 8
+push constant 1
+add
+pop this 8
+label IF_FALSE3
+push this 12
+push this 9
+eq
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push this 6
+call Block.moveright 1
+pop temp 0
+push this 8
+push constant 1
+add
+pop this 8
+label IF_FALSE4
+push this 13
+push this 9
+eq
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push this 7
+call Block.moveright 1
+pop temp 0
+push this 8
+push constant 1
+add
+pop this 8
+label IF_FALSE5
+push this 9
+push constant 16
+sub
+pop this 9
+goto WHILE_EXP0
+label WHILE_END0
+label IF_FALSE1
+label IF_FALSE0
+push constant 0
+pop this 24
+push constant 0
+return
+function Tetronimo.collisionDetectMove 5
+push constant 1
+pop local 4
+push argument 8
+push constant 3
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push argument 4
+push argument 5
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push argument 0
+push argument 1
+gt
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push argument 0
+pop argument 1
+goto IF_END2
+label IF_FALSE2
+push argument 1
+pop argument 0
+label IF_END2
+label IF_FALSE1
+push argument 4
+push argument 6
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push argument 0
+push argument 2
+gt
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push argument 0
+pop argument 2
+goto IF_END4
+label IF_FALSE4
+push argument 2
+pop argument 0
+label IF_END4
+label IF_FALSE3
+push argument 4
+push argument 7
+eq
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push argument 0
+push argument 3
+gt
+if-goto IF_TRUE6
+goto IF_FALSE6
+label IF_TRUE6
+push argument 0
+pop argument 3
+goto IF_END6
+label IF_FALSE6
+push argument 3
+pop argument 0
+label IF_END6
+label IF_FALSE5
+push argument 5
+push argument 4
+eq
+if-goto IF_TRUE7
+goto IF_FALSE7
+label IF_TRUE7
+push argument 1
+push argument 0
+gt
+if-goto IF_TRUE8
+goto IF_FALSE8
+label IF_TRUE8
+push argument 1
+pop argument 0
+goto IF_END8
+label IF_FALSE8
+push argument 0
+pop argument 1
+label IF_END8
+label IF_FALSE7
+push argument 5
+push argument 6
+eq
+if-goto IF_TRUE9
+goto IF_FALSE9
+label IF_TRUE9
+push argument 1
+push argument 2
+gt
+if-goto IF_TRUE10
+goto IF_FALSE10
+label IF_TRUE10
+push argument 1
+pop argument 2
+goto IF_END10
+label IF_FALSE10
+push argument 2
+pop argument 1
+label IF_END10
+label IF_FALSE9
+push argument 5
+push argument 7
+eq
+if-goto IF_TRUE11
+goto IF_FALSE11
+label IF_TRUE11
+push argument 1
+push argument 3
+gt
+if-goto IF_TRUE12
+goto IF_FALSE12
+label IF_TRUE12
+push argument 1
+pop argument 3
+goto IF_END12
+label IF_FALSE12
+push argument 3
+pop argument 1
+label IF_END12
+label IF_FALSE11
+push argument 6
+push argument 4
+eq
+if-goto IF_TRUE13
+goto IF_FALSE13
+label IF_TRUE13
+push argument 2
+push argument 0
+gt
+if-goto IF_TRUE14
+goto IF_FALSE14
+label IF_TRUE14
+push argument 2
+pop argument 0
+goto IF_END14
+label IF_FALSE14
+push argument 0
+pop argument 2
+label IF_END14
+label IF_FALSE13
+push argument 6
+push argument 5
+eq
+if-goto IF_TRUE15
+goto IF_FALSE15
+label IF_TRUE15
+push argument 2
+push argument 1
+gt
+if-goto IF_TRUE16
+goto IF_FALSE16
+label IF_TRUE16
+push argument 2
+pop argument 1
+goto IF_END16
+label IF_FALSE16
+push argument 1
+pop argument 2
+label IF_END16
+label IF_FALSE15
+push argument 6
+push argument 7
+eq
+if-goto IF_TRUE17
+goto IF_FALSE17
+label IF_TRUE17
+push argument 2
+push argument 3
+gt
+if-goto IF_TRUE18
+goto IF_FALSE18
+label IF_TRUE18
+push argument 2
+pop argument 3
+goto IF_END18
+label IF_FALSE18
+push argument 3
+pop argument 2
+label IF_END18
+label IF_FALSE17
+push argument 7
+push argument 4
+eq
+if-goto IF_TRUE19
+goto IF_FALSE19
+label IF_TRUE19
+push argument 3
+push argument 0
+gt
+if-goto IF_TRUE20
+goto IF_FALSE20
+label IF_TRUE20
+push argument 3
+pop argument 0
+goto IF_END20
+label IF_FALSE20
+push argument 0
+pop argument 3
+label IF_END20
+label IF_FALSE19
+push argument 7
+push argument 5
+eq
+if-goto IF_TRUE21
+goto IF_FALSE21
+label IF_TRUE21
+push argument 3
+push argument 1
+gt
+if-goto IF_TRUE22
+goto IF_FALSE22
+label IF_TRUE22
+push argument 3
+pop argument 1
+goto IF_END22
+label IF_FALSE22
+push argument 1
+pop argument 3
+label IF_END22
+label IF_FALSE21
+push argument 7
+push argument 6
+eq
+if-goto IF_TRUE23
+goto IF_FALSE23
+label IF_TRUE23
+push argument 3
+push argument 2
+gt
+if-goto IF_TRUE24
+goto IF_FALSE24
+label IF_TRUE24
+push argument 3
+pop argument 2
+goto IF_END24
+label IF_FALSE24
+push argument 2
+pop argument 3
+label IF_END24
+label IF_FALSE23
+push argument 0
+push constant 16
+add
+pop argument 0
+push argument 1
+push constant 16
+add
+pop argument 1
+push argument 2
+push constant 16
+add
+pop argument 2
+push argument 3
+push constant 16
+add
+pop argument 3
+push constant 16384
+push argument 0
+push constant 16
+call Math.divide 2
+add
+push argument 4
+push constant 32
+call Math.multiply 2
+push constant 32
+add
+add
+pop local 0
+push local 0
+call Memory.peek 1
+pop local 1
+push local 1
+push constant 0
+eq
+not
+if-goto IF_TRUE25
+goto IF_FALSE25
+label IF_TRUE25
+push constant 0
+pop local 4
+label IF_FALSE25
+push constant 16384
+push argument 1
+push constant 16
+call Math.divide 2
+add
+push argument 5
+push constant 32
+call Math.multiply 2
+push constant 32
+add
+add
+pop local 0
+push local 0
+call Memory.peek 1
+pop local 1
+push local 1
+push constant 0
+eq
+not
+if-goto IF_TRUE26
+goto IF_FALSE26
+label IF_TRUE26
+push constant 0
+pop local 4
+label IF_FALSE26
+push constant 16384
+push argument 2
+push constant 16
+call Math.divide 2
+add
+push argument 6
+push constant 32
+call Math.multiply 2
+push constant 32
+add
+add
+pop local 0
+push local 0
+call Memory.peek 1
+pop local 1
+push local 1
+push constant 0
+eq
+not
+if-goto IF_TRUE27
+goto IF_FALSE27
+label IF_TRUE27
+push constant 0
+pop local 4
+label IF_FALSE27
+push constant 16384
+push argument 3
+push constant 16
+call Math.divide 2
+add
+push argument 7
+push constant 32
+call Math.multiply 2
+push constant 32
+add
+add
+pop local 0
+push local 0
+call Memory.peek 1
+pop local 1
+push local 1
+push constant 0
+eq
+not
+if-goto IF_TRUE28
+goto IF_FALSE28
+label IF_TRUE28
+push constant 0
+pop local 4
+label IF_FALSE28
+label IF_FALSE0
+push argument 8
+push constant 2
+eq
+if-goto IF_TRUE29
+goto IF_FALSE29
+label IF_TRUE29
+push argument 0
+push argument 1
+eq
+if-goto IF_TRUE30
+goto IF_FALSE30
+label IF_TRUE30
+push argument 4
+push argument 5
+gt
+if-goto IF_TRUE31
+goto IF_FALSE31
+label IF_TRUE31
+push argument 4
+pop argument 5
+goto IF_END31
+label IF_FALSE31
+push argument 5
+pop argument 4
+label IF_END31
+label IF_FALSE30
+push argument 0
+push argument 2
+eq
+if-goto IF_TRUE32
+goto IF_FALSE32
+label IF_TRUE32
+push argument 4
+push argument 6
+gt
+if-goto IF_TRUE33
+goto IF_FALSE33
+label IF_TRUE33
+push argument 4
+pop argument 6
+goto IF_END33
+label IF_FALSE33
+push argument 6
+pop argument 4
+label IF_END33
+label IF_FALSE32
+push argument 0
+push argument 3
+eq
+if-goto IF_TRUE34
+goto IF_FALSE34
+label IF_TRUE34
+push argument 4
+push argument 7
+gt
+if-goto IF_TRUE35
+goto IF_FALSE35
+label IF_TRUE35
+push argument 4
+pop argument 7
+goto IF_END35
+label IF_FALSE35
+push argument 7
+pop argument 4
+label IF_END35
+label IF_FALSE34
+push argument 1
+push argument 0
+eq
+if-goto IF_TRUE36
+goto IF_FALSE36
+label IF_TRUE36
+push argument 5
+push argument 4
+gt
+if-goto IF_TRUE37
+goto IF_FALSE37
+label IF_TRUE37
+push argument 5
+pop argument 4
+goto IF_END37
+label IF_FALSE37
+push argument 4
+pop argument 5
+label IF_END37
+label IF_FALSE36
+push argument 1
+push argument 2
+eq
+if-goto IF_TRUE38
+goto IF_FALSE38
+label IF_TRUE38
+push argument 5
+push argument 6
+gt
+if-goto IF_TRUE39
+goto IF_FALSE39
+label IF_TRUE39
+push argument 5
+pop argument 6
+goto IF_END39
+label IF_FALSE39
+push argument 6
+pop argument 5
+label IF_END39
+label IF_FALSE38
+push argument 1
+push argument 3
+eq
+if-goto IF_TRUE40
+goto IF_FALSE40
+label IF_TRUE40
+push argument 5
+push argument 7
+gt
+if-goto IF_TRUE41
+goto IF_FALSE41
+label IF_TRUE41
+push argument 5
+pop argument 7
+goto IF_END41
+label IF_FALSE41
+push argument 7
+pop argument 5
+label IF_END41
+label IF_FALSE40
+push argument 2
+push argument 0
+eq
+if-goto IF_TRUE42
+goto IF_FALSE42
+label IF_TRUE42
+push argument 6
+push argument 4
+gt
+if-goto IF_TRUE43
+goto IF_FALSE43
+label IF_TRUE43
+push argument 6
+pop argument 4
+goto IF_END43
+label IF_FALSE43
+push argument 4
+pop argument 6
+label IF_END43
+label IF_FALSE42
+push argument 2
+push argument 1
+eq
+if-goto IF_TRUE44
+goto IF_FALSE44
+label IF_TRUE44
+push argument 6
+push argument 5
+gt
+if-goto IF_TRUE45
+goto IF_FALSE45
+label IF_TRUE45
+push argument 6
+pop argument 5
+goto IF_END45
+label IF_FALSE45
+push argument 5
+pop argument 6
+label IF_END45
+label IF_FALSE44
+push argument 2
+push argument 3
+eq
+if-goto IF_TRUE46
+goto IF_FALSE46
+label IF_TRUE46
+push argument 6
+push argument 7
+gt
+if-goto IF_TRUE47
+goto IF_FALSE47
+label IF_TRUE47
+push argument 6
+pop argument 7
+goto IF_END47
+label IF_FALSE47
+push argument 7
+pop argument 6
+label IF_END47
+label IF_FALSE46
+push argument 3
+push argument 0
+eq
+if-goto IF_TRUE48
+goto IF_FALSE48
+label IF_TRUE48
+push argument 7
+push argument 4
+gt
+if-goto IF_TRUE49
+goto IF_FALSE49
+label IF_TRUE49
+push argument 7
+pop argument 4
+goto IF_END49
+label IF_FALSE49
+push argument 4
+pop argument 7
+label IF_END49
+label IF_FALSE48
+push argument 3
+push argument 1
+eq
+if-goto IF_TRUE50
+goto IF_FALSE50
+label IF_TRUE50
+push argument 7
+push argument 5
+gt
+if-goto IF_TRUE51
+goto IF_FALSE51
+label IF_TRUE51
+push argument 7
+pop argument 5
+goto IF_END51
+label IF_FALSE51
+push argument 5
+pop argument 7
+label IF_END51
+label IF_FALSE50
+push argument 3
+push argument 2
+eq
+if-goto IF_TRUE52
+goto IF_FALSE52
+label IF_TRUE52
+push argument 7
+push argument 6
+gt
+if-goto IF_TRUE53
+goto IF_FALSE53
+label IF_TRUE53
+push argument 7
+pop argument 6
+goto IF_END53
+label IF_FALSE53
+push argument 6
+pop argument 7
+label IF_END53
+label IF_FALSE52
+push argument 4
+push constant 16
+add
+pop argument 4
+push argument 5
+push constant 16
+add
+pop argument 5
+push argument 6
+push constant 16
+add
+pop argument 6
+push argument 7
+push constant 16
+add
+pop argument 7
+push constant 16384
+push argument 0
+push constant 16
+call Math.divide 2
+add
+push argument 4
+push constant 32
+call Math.multiply 2
+push constant 32
+add
+add
+pop local 0
+push local 0
+call Memory.peek 1
+pop local 1
+push local 1
+push constant 0
+eq
+not
+if-goto IF_TRUE54
+goto IF_FALSE54
+label IF_TRUE54
+push constant 0
+pop local 4
+label IF_FALSE54
+push constant 16384
+push argument 1
+push constant 16
+call Math.divide 2
+add
+push argument 5
+push constant 32
+call Math.multiply 2
+push constant 32
+add
+add
+pop local 0
+push local 0
+call Memory.peek 1
+pop local 1
+push local 1
+push constant 0
+eq
+not
+if-goto IF_TRUE55
+goto IF_FALSE55
+label IF_TRUE55
+push constant 0
+pop local 4
+label IF_FALSE55
+push constant 16384
+push argument 2
+push constant 16
+call Math.divide 2
+add
+push argument 6
+push constant 32
+call Math.multiply 2
+push constant 32
+add
+add
+pop local 0
+push local 0
+call Memory.peek 1
+pop local 1
+push local 1
+push constant 0
+eq
+not
+if-goto IF_TRUE56
+goto IF_FALSE56
+label IF_TRUE56
+push constant 0
+pop local 4
+label IF_FALSE56
+push constant 16384
+push argument 3
+push constant 16
+call Math.divide 2
+add
+push argument 7
+push constant 32
+call Math.multiply 2
+push constant 32
+add
+add
+pop local 0
+push local 0
+call Memory.peek 1
+pop local 1
+push local 1
+push constant 0
+eq
+not
+if-goto IF_TRUE57
+goto IF_FALSE57
+label IF_TRUE57
+push constant 0
+pop local 4
+label IF_FALSE57
+label IF_FALSE29
+push argument 8
+push constant 1
+eq
+if-goto IF_TRUE58
+goto IF_FALSE58
+label IF_TRUE58
+push argument 4
+push argument 5
+eq
+if-goto IF_TRUE59
+goto IF_FALSE59
+label IF_TRUE59
+push argument 0
+push argument 1
+lt
+if-goto IF_TRUE60
+goto IF_FALSE60
+label IF_TRUE60
+push argument 0
+pop argument 1
+goto IF_END60
+label IF_FALSE60
+push argument 1
+pop argument 0
+label IF_END60
+label IF_FALSE59
+push argument 4
+push argument 6
+eq
+if-goto IF_TRUE61
+goto IF_FALSE61
+label IF_TRUE61
+push argument 0
+push argument 2
+lt
+if-goto IF_TRUE62
+goto IF_FALSE62
+label IF_TRUE62
+push argument 0
+pop argument 2
+goto IF_END62
+label IF_FALSE62
+push argument 2
+pop argument 0
+label IF_END62
+label IF_FALSE61
+push argument 4
+push argument 7
+eq
+if-goto IF_TRUE63
+goto IF_FALSE63
+label IF_TRUE63
+push argument 0
+push argument 3
+lt
+if-goto IF_TRUE64
+goto IF_FALSE64
+label IF_TRUE64
+push argument 0
+pop argument 3
+goto IF_END64
+label IF_FALSE64
+push argument 3
+pop argument 0
+label IF_END64
+label IF_FALSE63
+push argument 5
+push argument 4
+eq
+if-goto IF_TRUE65
+goto IF_FALSE65
+label IF_TRUE65
+push argument 1
+push argument 0
+lt
+if-goto IF_TRUE66
+goto IF_FALSE66
+label IF_TRUE66
+push argument 1
+pop argument 0
+goto IF_END66
+label IF_FALSE66
+push argument 0
+pop argument 1
+label IF_END66
+label IF_FALSE65
+push argument 5
+push argument 6
+eq
+if-goto IF_TRUE67
+goto IF_FALSE67
+label IF_TRUE67
+push argument 1
+push argument 2
+lt
+if-goto IF_TRUE68
+goto IF_FALSE68
+label IF_TRUE68
+push argument 1
+pop argument 2
+goto IF_END68
+label IF_FALSE68
+push argument 2
+pop argument 1
+label IF_END68
+label IF_FALSE67
+push argument 5
+push argument 7
+eq
+if-goto IF_TRUE69
+goto IF_FALSE69
+label IF_TRUE69
+push argument 1
+push argument 3
+lt
+if-goto IF_TRUE70
+goto IF_FALSE70
+label IF_TRUE70
+push argument 1
+pop argument 3
+goto IF_END70
+label IF_FALSE70
+push argument 3
+pop argument 1
+label IF_END70
+label IF_FALSE69
+push argument 6
+push argument 4
+eq
+if-goto IF_TRUE71
+goto IF_FALSE71
+label IF_TRUE71
+push argument 2
+push argument 0
+lt
+if-goto IF_TRUE72
+goto IF_FALSE72
+label IF_TRUE72
+push argument 2
+pop argument 0
+goto IF_END72
+label IF_FALSE72
+push argument 0
+pop argument 2
+label IF_END72
+label IF_FALSE71
+push argument 6
+push argument 5
+eq
+if-goto IF_TRUE73
+goto IF_FALSE73
+label IF_TRUE73
+push argument 2
+push argument 1
+lt
+if-goto IF_TRUE74
+goto IF_FALSE74
+label IF_TRUE74
+push argument 2
+pop argument 1
+goto IF_END74
+label IF_FALSE74
+push argument 1
+pop argument 2
+label IF_END74
+label IF_FALSE73
+push argument 6
+push argument 7
+eq
+if-goto IF_TRUE75
+goto IF_FALSE75
+label IF_TRUE75
+push argument 2
+push argument 3
+lt
+if-goto IF_TRUE76
+goto IF_FALSE76
+label IF_TRUE76
+push argument 2
+pop argument 3
+goto IF_END76
+label IF_FALSE76
+push argument 3
+pop argument 2
+label IF_END76
+label IF_FALSE75
+push argument 7
+push argument 4
+eq
+if-goto IF_TRUE77
+goto IF_FALSE77
+label IF_TRUE77
+push argument 3
+push argument 0
+lt
+if-goto IF_TRUE78
+goto IF_FALSE78
+label IF_TRUE78
+push argument 3
+pop argument 0
+goto IF_END78
+label IF_FALSE78
+push argument 0
+pop argument 3
+label IF_END78
+label IF_FALSE77
+push argument 7
+push argument 5
+eq
+if-goto IF_TRUE79
+goto IF_FALSE79
+label IF_TRUE79
+push argument 3
+push argument 1
+lt
+if-goto IF_TRUE80
+goto IF_FALSE80
+label IF_TRUE80
+push argument 3
+pop argument 1
+goto IF_END80
+label IF_FALSE80
+push argument 1
+pop argument 3
+label IF_END80
+label IF_FALSE79
+push argument 7
+push argument 6
+eq
+if-goto IF_TRUE81
+goto IF_FALSE81
+label IF_TRUE81
+push argument 3
+push argument 2
+lt
+if-goto IF_TRUE82
+goto IF_FALSE82
+label IF_TRUE82
+push argument 3
+pop argument 2
+goto IF_END82
+label IF_FALSE82
+push argument 2
+pop argument 3
+label IF_END82
+label IF_FALSE81
+push argument 0
+push constant 16
+sub
+pop argument 0
+push argument 1
+push constant 16
+sub
+pop argument 1
+push argument 2
+push constant 16
+sub
+pop argument 2
+push argument 3
+push constant 16
+sub
+pop argument 3
+push constant 16384
+push argument 0
+push constant 16
+call Math.divide 2
+add
+push argument 4
+push constant 32
+call Math.multiply 2
+push constant 32
+add
+add
+pop local 0
+push local 0
+call Memory.peek 1
+pop local 1
+push local 1
+push constant 0
+eq
+not
+if-goto IF_TRUE83
+goto IF_FALSE83
+label IF_TRUE83
+push constant 0
+pop local 4
+label IF_FALSE83
+push constant 16384
+push argument 1
+push constant 16
+call Math.divide 2
+add
+push argument 5
+push constant 32
+call Math.multiply 2
+push constant 32
+add
+add
+pop local 0
+push local 0
+call Memory.peek 1
+pop local 1
+push local 1
+push constant 0
+eq
+not
+if-goto IF_TRUE84
+goto IF_FALSE84
+label IF_TRUE84
+push constant 0
+pop local 4
+label IF_FALSE84
+push constant 16384
+push argument 2
+push constant 16
+call Math.divide 2
+add
+push argument 6
+push constant 32
+call Math.multiply 2
+push constant 32
+add
+add
+pop local 0
+push local 0
+call Memory.peek 1
+pop local 1
+push local 1
+push constant 0
+eq
+not
+if-goto IF_TRUE85
+goto IF_FALSE85
+label IF_TRUE85
+push constant 0
+pop local 4
+label IF_FALSE85
+push constant 16384
+push argument 3
+push constant 16
+call Math.divide 2
+add
+push argument 7
+push constant 32
+call Math.multiply 2
+push constant 32
+add
+add
+pop local 0
+push local 0
+call Memory.peek 1
+pop local 1
+push local 1
+push constant 0
+eq
+not
+if-goto IF_TRUE86
+goto IF_FALSE86
+label IF_TRUE86
+push constant 0
+pop local 4
+label IF_FALSE86
+label IF_FALSE58
+push local 4
+push constant 0
+eq
+if-goto IF_TRUE87
+goto IF_FALSE87
+label IF_TRUE87
+push constant 0
+return
+label IF_FALSE87
+push constant 1
+return
+function Tetronimo.collisionDetectRotate 14
+push constant 1
+pop local 13
+push argument 8
+push constant 3
+eq
+push argument 9
+push constant 2
+eq
+and
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push argument 0
+push argument 10
+eq
+push argument 4
+push argument 11
+eq
+and
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push argument 0
+push constant 16
+add
+pop local 4
+push argument 4
+pop local 8
+label IF_FALSE1
+push argument 1
+push argument 10
+eq
+push argument 5
+push argument 11
+eq
+and
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push argument 1
+push constant 16
+add
+pop local 5
+push argument 5
+pop local 9
+label IF_FALSE2
+push argument 2
+push argument 10
+eq
+push argument 6
+push argument 11
+eq
+and
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push argument 2
+push constant 16
+add
+pop local 6
+push argument 6
+pop local 10
+label IF_FALSE3
+push argument 3
+push argument 10
+eq
+push argument 7
+push argument 11
+eq
+and
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push argument 3
+push constant 16
+add
+pop local 7
+push argument 7
+pop local 11
+label IF_FALSE4
+push argument 0
+push argument 10
+push constant 16
+add
+eq
+push argument 4
+push argument 11
+eq
+and
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push argument 0
+pop local 4
+push argument 4
+push constant 16
+add
+pop local 8
+label IF_FALSE5
+push argument 1
+push argument 10
+push constant 16
+add
+eq
+push argument 5
+push argument 11
+eq
+and
+if-goto IF_TRUE6
+goto IF_FALSE6
+label IF_TRUE6
+push argument 1
+pop local 5
+push argument 5
+push constant 16
+add
+pop local 9
+label IF_FALSE6
+push argument 2
+push argument 10
+push constant 16
+add
+eq
+push argument 6
+push argument 11
+eq
+and
+if-goto IF_TRUE7
+goto IF_FALSE7
+label IF_TRUE7
+push argument 2
+pop local 6
+push argument 6
+push constant 16
+add
+pop local 10
+label IF_FALSE7
+push argument 3
+push argument 10
+push constant 16
+add
+eq
+push argument 7
+push argument 11
+eq
+and
+if-goto IF_TRUE8
+goto IF_FALSE8
+label IF_TRUE8
+push argument 3
+pop local 7
+push argument 7
+push constant 16
+add
+pop local 11
+label IF_FALSE8
+push argument 0
+push argument 10
+push constant 32
+add
+eq
+push argument 4
+push argument 11
+eq
+and
+if-goto IF_TRUE9
+goto IF_FALSE9
+label IF_TRUE9
+push argument 0
+push constant 16
+sub
+pop local 4
+push argument 4
+push constant 32
+add
+pop local 8
+label IF_FALSE9
+push argument 1
+push argument 10
+push constant 32
+add
+eq
+push argument 5
+push argument 11
+eq
+and
+if-goto IF_TRUE10
+goto IF_FALSE10
+label IF_TRUE10
+push argument 1
+push constant 16
+sub
+pop local 5
+push argument 5
+push constant 32
+add
+pop local 9
+label IF_FALSE10
+push argument 2
+push argument 10
+push constant 32
+add
+eq
+push argument 6
+push argument 11
+eq
+and
+if-goto IF_TRUE11
+goto IF_FALSE11
+label IF_TRUE11
+push argument 2
+push constant 16
+sub
+pop local 6
+push argument 6
+push constant 32
+add
+pop local 10
+label IF_FALSE11
+push argument 3
+push argument 10
+push constant 32
+add
+eq
+push argument 7
+push argument 11
+eq
+and
+if-goto IF_TRUE12
+goto IF_FALSE12
+label IF_TRUE12
+push argument 3
+push constant 16
+sub
+pop local 7
+push argument 7
+push constant 32
+add
+pop local 11
+label IF_FALSE12
+push argument 0
+push argument 10
+eq
+push argument 4
+push argument 11
+push constant 16
+add
+eq
+and
+if-goto IF_TRUE13
+goto IF_FALSE13
+label IF_TRUE13
+push argument 0
+pop local 4
+push argument 4
+push constant 16
+sub
+pop local 8
+label IF_FALSE13
+push argument 1
+push argument 10
+eq
+push argument 5
+push argument 11
+push constant 16
+add
+eq
+and
+if-goto IF_TRUE14
+goto IF_FALSE14
+label IF_TRUE14
+push argument 1
+pop local 5
+push argument 5
+push constant 16
+sub
+pop local 9
+label IF_FALSE14
+push argument 2
+push argument 10
+eq
+push argument 6
+push argument 11
+push constant 16
+add
+eq
+and
+if-goto IF_TRUE15
+goto IF_FALSE15
+label IF_TRUE15
+push argument 2
+pop local 6
+push argument 6
+push constant 16
+sub
+pop local 10
+label IF_FALSE15
+push argument 3
+push argument 10
+eq
+push argument 7
+push argument 11
+push constant 16
+add
+eq
+and
+if-goto IF_TRUE16
+goto IF_FALSE16
+label IF_TRUE16
+push argument 3
+pop local 7
+push argument 7
+push constant 16
+sub
+pop local 11
+label IF_FALSE16
+push argument 0
+push argument 10
+push constant 16
+add
+eq
+push argument 4
+push argument 11
+push constant 16
+add
+eq
+and
+if-goto IF_TRUE17
+goto IF_FALSE17
+label IF_TRUE17
+push argument 0
+push constant 16
+sub
+pop local 4
+push argument 4
+pop local 8
+label IF_FALSE17
+push argument 1
+push argument 10
+push constant 16
+add
+eq
+push argument 5
+push argument 11
+push constant 16
+add
+eq
+and
+if-goto IF_TRUE18
+goto IF_FALSE18
+label IF_TRUE18
+push argument 1
+push constant 16
+sub
+pop local 5
+push argument 5
+pop local 9
+label IF_FALSE18
+push argument 2
+push argument 10
+push constant 16
+add
+eq
+push argument 6
+push argument 11
+push constant 16
+add
+eq
+and
+if-goto IF_TRUE19
+goto IF_FALSE19
+label IF_TRUE19
+push argument 2
+push constant 16
+sub
+pop local 6
+push argument 6
+pop local 10
+label IF_FALSE19
+push argument 3
+push argument 10
+push constant 16
+add
+eq
+push argument 7
+push argument 11
+push constant 16
+add
+eq
+and
+if-goto IF_TRUE20
+goto IF_FALSE20
+label IF_TRUE20
+push argument 3
+push constant 16
+sub
+pop local 7
+push argument 7
+pop local 11
+label IF_FALSE20
+push argument 0
+push argument 10
+push constant 32
+add
+eq
+push argument 4
+push argument 11
+push constant 16
+add
+eq
+and
+if-goto IF_TRUE21
+goto IF_FALSE21
+label IF_TRUE21
+push argument 0
+push constant 32
+sub
+pop local 4
+push argument 4
+push constant 16
+add
+pop local 8
+label IF_FALSE21
+push argument 1
+push argument 10
+push constant 32
+add
+eq
+push argument 5
+push argument 11
+push constant 16
+add
+eq
+and
+if-goto IF_TRUE22
+goto IF_FALSE22
+label IF_TRUE22
+push argument 1
+push constant 32
+sub
+pop local 5
+push argument 5
+push constant 16
+add
+pop local 9
+label IF_FALSE22
+push argument 2
+push argument 10
+push constant 32
+add
+eq
+push argument 6
+push argument 11
+push constant 16
+add
+eq
+and
+if-goto IF_TRUE23
+goto IF_FALSE23
+label IF_TRUE23
+push argument 2
+push constant 32
+sub
+pop local 6
+push argument 6
+push constant 16
+add
+pop local 10
+label IF_FALSE23
+push argument 3
+push argument 10
+push constant 32
+add
+eq
+push argument 7
+push argument 11
+push constant 16
+add
+eq
+and
+if-goto IF_TRUE24
+goto IF_FALSE24
+label IF_TRUE24
+push argument 3
+push constant 32
+sub
+pop local 7
+push argument 7
+push constant 16
+add
+pop local 11
+label IF_FALSE24
+push argument 11
+push constant 48
+add
+pop local 12
+push local 12
+push constant 256
+gt
+if-goto IF_TRUE25
+goto IF_FALSE25
+label IF_TRUE25
+push constant 0
+pop local 13
+label IF_FALSE25
+label IF_FALSE0
+push argument 8
+push constant 2
+eq
+push argument 9
+push constant 3
+eq
+and
+if-goto IF_TRUE26
+goto IF_FALSE26
+label IF_TRUE26
+push argument 0
+push argument 10
+eq
+push argument 4
+push argument 11
+eq
+and
+if-goto IF_TRUE27
+goto IF_FALSE27
+label IF_TRUE27
+push argument 0
+push constant 32
+add
+pop local 4
+push argument 4
+pop local 8
+label IF_FALSE27
+push argument 1
+push argument 10
+eq
+push argument 5
+push argument 11
+eq
+and
+if-goto IF_TRUE28
+goto IF_FALSE28
+label IF_TRUE28
+push argument 1
+push constant 32
+add
+pop local 5
+push argument 5
+pop local 9
+label IF_FALSE28
+push argument 2
+push argument 10
+eq
+push argument 6
+push argument 11
+eq
+and
+if-goto IF_TRUE29
+goto IF_FALSE29
+label IF_TRUE29
+push argument 2
+push constant 32
+add
+pop local 6
+push argument 6
+pop local 10
+label IF_FALSE29
+push argument 3
+push argument 10
+eq
+push argument 7
+push argument 11
+eq
+and
+if-goto IF_TRUE30
+goto IF_FALSE30
+label IF_TRUE30
+push argument 3
+push constant 32
+add
+pop local 7
+push argument 7
+pop local 11
+label IF_FALSE30
+push argument 0
+push argument 10
+push constant 16
+add
+eq
+push argument 4
+push argument 11
+eq
+and
+if-goto IF_TRUE31
+goto IF_FALSE31
+label IF_TRUE31
+push argument 0
+push constant 16
+add
+pop local 4
+push argument 4
+push constant 16
+add
+pop local 8
+label IF_FALSE31
+push argument 1
+push argument 10
+push constant 16
+add
+eq
+push argument 5
+push argument 11
+eq
+and
+if-goto IF_TRUE32
+goto IF_FALSE32
+label IF_TRUE32
+push argument 1
+push constant 16
+add
+pop local 5
+push argument 5
+push constant 16
+add
+pop local 9
+label IF_FALSE32
+push argument 2
+push argument 10
+push constant 16
+add
+eq
+push argument 6
+push argument 11
+eq
+and
+if-goto IF_TRUE33
+goto IF_FALSE33
+label IF_TRUE33
+push argument 2
+push constant 16
+add
+pop local 6
+push argument 6
+push constant 16
+add
+pop local 10
+label IF_FALSE33
+push argument 3
+push argument 10
+push constant 16
+add
+eq
+push argument 7
+push argument 11
+eq
+and
+if-goto IF_TRUE34
+goto IF_FALSE34
+label IF_TRUE34
+push argument 3
+push constant 16
+add
+pop local 7
+push argument 7
+push constant 16
+add
+pop local 11
+label IF_FALSE34
+push argument 0
+push argument 10
+eq
+push argument 4
+push argument 11
+push constant 16
+add
+eq
+and
+if-goto IF_TRUE35
+goto IF_FALSE35
+label IF_TRUE35
+push argument 0
+push constant 16
+add
+pop local 4
+push argument 4
+push constant 16
+sub
+pop local 8
+label IF_FALSE35
+push argument 1
+push argument 10
+eq
+push argument 5
+push argument 11
+push constant 16
+add
+eq
+and
+if-goto IF_TRUE36
+goto IF_FALSE36
+label IF_TRUE36
+push argument 1
+push constant 16
+add
+pop local 5
+push argument 5
+push constant 16
+sub
+pop local 9
+label IF_FALSE36
+push argument 2
+push argument 10
+eq
+push argument 6
+push argument 11
+push constant 16
+add
+eq
+and
+if-goto IF_TRUE37
+goto IF_FALSE37
+label IF_TRUE37
+push argument 2
+push constant 16
+add
+pop local 6
+push argument 6
+push constant 16
+sub
+pop local 10
+label IF_FALSE37
+push argument 3
+push argument 10
+eq
+push argument 7
+push argument 11
+push constant 16
+add
+eq
+and
+if-goto IF_TRUE38
+goto IF_FALSE38
+label IF_TRUE38
+push argument 3
+push constant 16
+add
+pop local 7
+push argument 7
+push constant 16
+sub
+pop local 11
+label IF_FALSE38
+push argument 0
+push argument 10
+push constant 16
+add
+eq
+push argument 4
+push argument 11
+push constant 16
+add
+eq
+and
+if-goto IF_TRUE39
+goto IF_FALSE39
+label IF_TRUE39
+push argument 0
+pop local 4
+push argument 4
+pop local 8
+label IF_FALSE39
+push argument 1
+push argument 10
+push constant 16
+add
+eq
+push argument 5
+push argument 11
+push constant 16
+add
+eq
+and
+if-goto IF_TRUE40
+goto IF_FALSE40
+label IF_TRUE40
+push argument 1
+pop local 5
+push argument 5
+pop local 9
+label IF_FALSE40
+push argument 2
+push argument 10
+push constant 16
+add
+eq
+push argument 6
+push argument 11
+push constant 16
+add
+eq
+and
+if-goto IF_TRUE41
+goto IF_FALSE41
+label IF_TRUE41
+push argument 2
+pop local 6
+push argument 6
+pop local 10
+label IF_FALSE41
+push argument 3
+push argument 10
+push constant 16
+add
+eq
+push argument 7
+push argument 11
+push constant 16
+add
+eq
+and
+if-goto IF_TRUE42
+goto IF_FALSE42
+label IF_TRUE42
+push argument 3
+pop local 7
+push argument 7
+pop local 11
+label IF_FALSE42
+push argument 0
+push argument 10
+eq
+push argument 4
+push argument 11
+push constant 32
+add
+eq
+and
+if-goto IF_TRUE43
+goto IF_FALSE43
+label IF_TRUE43
+push argument 0
+pop local 4
+push argument 4
+push constant 32
+sub
+pop local 8
+label IF_FALSE43
+push argument 1
+push argument 10
+eq
+push argument 5
+push argument 11
+push constant 32
+add
+eq
+and
+if-goto IF_TRUE44
+goto IF_FALSE44
+label IF_TRUE44
+push argument 1
+pop local 5
+push argument 5
+push constant 32
+sub
+pop local 9
+label IF_FALSE44
+push argument 2
+push argument 10
+eq
+push argument 6
+push argument 11
+push constant 32
+add
+eq
+and
+if-goto IF_TRUE45
+goto IF_FALSE45
+label IF_TRUE45
+push argument 2
+pop local 6
+push argument 6
+push constant 32
+sub
+pop local 10
+label IF_FALSE45
+push argument 3
+push argument 10
+eq
+push argument 7
+push argument 11
+push constant 32
+add
+eq
+and
+if-goto IF_TRUE46
+goto IF_FALSE46
+label IF_TRUE46
+push argument 3
+pop local 7
+push argument 7
+push constant 32
+sub
+pop local 11
+label IF_FALSE46
+push argument 0
+push argument 10
+push constant 16
+add
+eq
+push argument 4
+push argument 11
+push constant 32
+add
+eq
+and
+if-goto IF_TRUE47
+goto IF_FALSE47
+label IF_TRUE47
+push argument 0
+push constant 16
+sub
+pop local 4
+push argument 4
+push constant 16
+sub
+pop local 8
+label IF_FALSE47
+push argument 1
+push argument 10
+push constant 16
+add
+eq
+push argument 5
+push argument 11
+push constant 32
+add
+eq
+and
+if-goto IF_TRUE48
+goto IF_FALSE48
+label IF_TRUE48
+push argument 1
+push constant 16
+sub
+pop local 5
+push argument 5
+push constant 16
+sub
+pop local 9
+label IF_FALSE48
+push argument 2
+push argument 10
+push constant 16
+add
+eq
+push argument 6
+push argument 11
+push constant 32
+add
+eq
+and
+if-goto IF_TRUE49
+goto IF_FALSE49
+label IF_TRUE49
+push argument 2
+push constant 16
+sub
+pop local 6
+push argument 6
+push constant 16
+sub
+pop local 10
+label IF_FALSE49
+push argument 3
+push argument 10
+push constant 16
+add
+eq
+push argument 7
+push argument 11
+push constant 32
+add
+eq
+and
+if-goto IF_TRUE50
+goto IF_FALSE50
+label IF_TRUE50
+push argument 3
+push constant 16
+sub
+pop local 7
+push argument 7
+push constant 16
+sub
+pop local 11
+label IF_FALSE50
+label IF_FALSE26
+push argument 8
+push constant 4
+eq
+push argument 9
+push constant 1
+eq
+and
+if-goto IF_TRUE51
+goto IF_FALSE51
+label IF_TRUE51
+push argument 0
+push argument 10
+eq
+push argument 4
+push argument 11
+eq
+and
+if-goto IF_TRUE52
+goto IF_FALSE52
+label IF_TRUE52
+push argument 0
+pop local 4
+push argument 4
+pop local 8
+label IF_FALSE52
+push argument 1
+push argument 10
+eq
+push argument 5
+push argument 11
+eq
+and
+if-goto IF_TRUE53
+goto IF_FALSE53
+label IF_TRUE53
+push argument 1
+pop local 5
+push argument 5
+pop local 9
+label IF_FALSE53
+push argument 2
+push argument 10
+eq
+push argument 6
+push argument 11
+eq
+and
+if-goto IF_TRUE54
+goto IF_FALSE54
+label IF_TRUE54
+push argument 2
+pop local 6
+push argument 6
+pop local 10
+label IF_FALSE54
+push argument 3
+push argument 10
+eq
+push argument 7
+push argument 11
+eq
+and
+if-goto IF_TRUE55
+goto IF_FALSE55
+label IF_TRUE55
+push argument 3
+pop local 7
+push argument 7
+pop local 11
+label IF_FALSE55
+push argument 0
+push argument 10
+push constant 16
+add
+eq
+push argument 4
+push argument 11
+eq
+and
+if-goto IF_TRUE56
+goto IF_FALSE56
+label IF_TRUE56
+push argument 0
+push constant 16
+sub
+pop local 4
+push argument 4
+push constant 16
+add
+pop local 8
+label IF_FALSE56
+push argument 1
+push argument 10
+push constant 16
+add
+eq
+push argument 5
+push argument 11
+eq
+and
+if-goto IF_TRUE57
+goto IF_FALSE57
+label IF_TRUE57
+push argument 1
+push constant 16
+sub
+pop local 5
+push argument 5
+push constant 16
+add
+pop local 9
+label IF_FALSE57
+push argument 2
+push argument 10
+push constant 16
+add
+eq
+push argument 6
+push argument 11
+eq
+and
+if-goto IF_TRUE58
+goto IF_FALSE58
+label IF_TRUE58
+push argument 2
+push constant 16
+sub
+pop local 6
+push argument 6
+push constant 16
+add
+pop local 10
+label IF_FALSE58
+push argument 3
+push argument 10
+push constant 16
+add
+eq
+push argument 7
+push argument 11
+eq
+and
+if-goto IF_TRUE59
+goto IF_FALSE59
+label IF_TRUE59
+push argument 3
+push constant 16
+sub
+pop local 7
+push argument 7
+push constant 16
+add
+pop local 11
+label IF_FALSE59
+push argument 0
+push argument 10
+push constant 32
+add
+eq
+push argument 4
+push argument 11
+eq
+and
+if-goto IF_TRUE60
+goto IF_FALSE60
+label IF_TRUE60
+push argument 0
+push constant 32
+sub
+pop local 4
+push argument 4
+push constant 32
+add
+pop local 8
+label IF_FALSE60
+push argument 1
+push argument 10
+push constant 32
+add
+eq
+push argument 5
+push argument 11
+eq
+and
+if-goto IF_TRUE61
+goto IF_FALSE61
+label IF_TRUE61
+push argument 1
+push constant 32
+sub
+pop local 5
+push argument 5
+push constant 32
+add
+pop local 9
+label IF_FALSE61
+push argument 2
+push argument 10
+push constant 32
+add
+eq
+push argument 6
+push argument 11
+eq
+and
+if-goto IF_TRUE62
+goto IF_FALSE62
+label IF_TRUE62
+push argument 2
+push constant 32
+sub
+pop local 6
+push argument 6
+push constant 32
+add
+pop local 10
+label IF_FALSE62
+push argument 3
+push argument 10
+push constant 32
+add
+eq
+push argument 7
+push argument 11
+eq
+and
+if-goto IF_TRUE63
+goto IF_FALSE63
+label IF_TRUE63
+push argument 3
+push constant 32
+sub
+pop local 7
+push argument 7
+push constant 32
+add
+pop local 11
+label IF_FALSE63
+push argument 0
+push argument 10
+push constant 48
+add
+eq
+push argument 4
+push argument 11
+eq
+and
+if-goto IF_TRUE64
+goto IF_FALSE64
+label IF_TRUE64
+push argument 0
+push constant 48
+sub
+pop local 4
+push argument 4
+push constant 48
+add
+pop local 8
+label IF_FALSE64
+push argument 1
+push argument 10
+push constant 48
+add
+eq
+push argument 5
+push argument 11
+eq
+and
+if-goto IF_TRUE65
+goto IF_FALSE65
+label IF_TRUE65
+push argument 1
+push constant 48
+sub
+pop local 5
+push argument 5
+push constant 48
+add
+pop local 9
+label IF_FALSE65
+push argument 2
+push argument 10
+push constant 48
+add
+eq
+push argument 6
+push argument 11
+eq
+and
+if-goto IF_TRUE66
+goto IF_FALSE66
+label IF_TRUE66
+push argument 2
+push constant 48
+sub
+pop local 6
+push argument 6
+push constant 48
+add
+pop local 10
+label IF_FALSE66
+push argument 3
+push argument 10
+push constant 48
+add
+eq
+push argument 7
+push argument 11
+eq
+and
+if-goto IF_TRUE67
+goto IF_FALSE67
+label IF_TRUE67
+push argument 3
+push constant 48
+sub
+pop local 7
+push argument 7
+push constant 48
+add
+pop local 11
+label IF_FALSE67
+push argument 11
+push constant 64
+add
+pop local 12
+push local 12
+push constant 256
+gt
+if-goto IF_TRUE68
+goto IF_FALSE68
+label IF_TRUE68
+push constant 0
+pop local 13
+label IF_FALSE68
+label IF_FALSE51
+push argument 8
+push constant 1
+eq
+push argument 9
+push constant 4
+eq
+and
+if-goto IF_TRUE69
+goto IF_FALSE69
+label IF_TRUE69
+push argument 0
+push argument 10
+eq
+push argument 4
+push argument 11
+eq
+and
+if-goto IF_TRUE70
+goto IF_FALSE70
+label IF_TRUE70
+push argument 0
+pop local 4
+push argument 4
+pop local 8
+label IF_FALSE70
+push argument 1
+push argument 10
+eq
+push argument 5
+push argument 11
+eq
+and
+if-goto IF_TRUE71
+goto IF_FALSE71
+label IF_TRUE71
+push argument 1
+pop local 5
+push argument 5
+pop local 9
+label IF_FALSE71
+push argument 2
+push argument 10
+eq
+push argument 6
+push argument 11
+eq
+and
+if-goto IF_TRUE72
+goto IF_FALSE72
+label IF_TRUE72
+push argument 2
+pop local 6
+push argument 6
+pop local 10
+label IF_FALSE72
+push argument 3
+push argument 10
+eq
+push argument 7
+push argument 11
+eq
+and
+if-goto IF_TRUE73
+goto IF_FALSE73
+label IF_TRUE73
+push argument 3
+pop local 7
+push argument 7
+pop local 11
+label IF_FALSE73
+push argument 0
+push argument 10
+eq
+push argument 4
+push argument 11
+push constant 16
+add
+eq
+and
+if-goto IF_TRUE74
+goto IF_FALSE74
+label IF_TRUE74
+push argument 0
+push constant 16
+add
+pop local 4
+push argument 4
+push constant 16
+sub
+pop local 8
+label IF_FALSE74
+push argument 1
+push argument 10
+eq
+push argument 5
+push argument 11
+push constant 16
+add
+eq
+and
+if-goto IF_TRUE75
+goto IF_FALSE75
+label IF_TRUE75
+push argument 1
+push constant 16
+add
+pop local 5
+push argument 5
+push constant 16
+sub
+pop local 9
+label IF_FALSE75
+push argument 2
+push argument 10
+eq
+push argument 6
+push argument 11
+push constant 16
+add
+eq
+and
+if-goto IF_TRUE76
+goto IF_FALSE76
+label IF_TRUE76
+push argument 2
+push constant 16
+add
+pop local 6
+push argument 6
+push constant 16
+sub
+pop local 10
+label IF_FALSE76
+push argument 3
+push argument 10
+eq
+push argument 7
+push argument 11
+push constant 16
+add
+eq
+and
+if-goto IF_TRUE77
+goto IF_FALSE77
+label IF_TRUE77
+push argument 3
+push constant 16
+add
+pop local 7
+push argument 7
+push constant 16
+sub
+pop local 11
+label IF_FALSE77
+push argument 0
+push argument 10
+eq
+push argument 4
+push argument 11
+push constant 32
+add
+eq
+and
+if-goto IF_TRUE78
+goto IF_FALSE78
+label IF_TRUE78
+push argument 0
+push constant 32
+add
+pop local 4
+push argument 4
+push constant 32
+sub
+pop local 8
+label IF_FALSE78
+push argument 1
+push argument 10
+eq
+push argument 5
+push argument 11
+push constant 32
+add
+eq
+and
+if-goto IF_TRUE79
+goto IF_FALSE79
+label IF_TRUE79
+push argument 1
+push constant 32
+add
+pop local 5
+push argument 5
+push constant 32
+sub
+pop local 9
+label IF_FALSE79
+push argument 2
+push argument 10
+eq
+push argument 6
+push argument 11
+push constant 32
+add
+eq
+and
+if-goto IF_TRUE80
+goto IF_FALSE80
+label IF_TRUE80
+push argument 2
+push constant 32
+add
+pop local 6
+push argument 6
+push constant 32
+sub
+pop local 10
+label IF_FALSE80
+push argument 3
+push argument 10
+eq
+push argument 7
+push argument 11
+push constant 32
+add
+eq
+and
+if-goto IF_TRUE81
+goto IF_FALSE81
+label IF_TRUE81
+push argument 3
+push constant 32
+add
+pop local 7
+push argument 7
+push constant 32
+sub
+pop local 11
+label IF_FALSE81
+push argument 0
+push argument 10
+eq
+push argument 4
+push argument 11
+push constant 48
+add
+eq
+and
+if-goto IF_TRUE82
+goto IF_FALSE82
+label IF_TRUE82
+push argument 0
+push constant 48
+add
+pop local 4
+push argument 4
+push constant 48
+sub
+pop local 8
+label IF_FALSE82
+push argument 1
+push argument 10
+eq
+push argument 5
+push argument 11
+push constant 48
+add
+eq
+and
+if-goto IF_TRUE83
+goto IF_FALSE83
+label IF_TRUE83
+push argument 1
+push constant 48
+add
+pop local 5
+push argument 5
+push constant 48
+sub
+pop local 9
+label IF_FALSE83
+push argument 2
+push argument 10
+eq
+push argument 6
+push argument 11
+push constant 48
+add
+eq
+and
+if-goto IF_TRUE84
+goto IF_FALSE84
+label IF_TRUE84
+push argument 2
+push constant 48
+add
+pop local 6
+push argument 6
+push constant 48
+sub
+pop local 10
+label IF_FALSE84
+push argument 3
+push argument 10
+eq
+push argument 7
+push argument 11
+push constant 48
+add
+eq
+and
+if-goto IF_TRUE85
+goto IF_FALSE85
+label IF_TRUE85
+push argument 3
+push constant 48
+add
+pop local 7
+push argument 7
+push constant 48
+sub
+pop local 11
+label IF_FALSE85
+label IF_FALSE69
+push local 13
+push constant 1
+eq
+if-goto IF_TRUE86
+goto IF_FALSE86
+label IF_TRUE86
+push local 4
+push argument 0
+eq
+push local 8
+push argument 4
+eq
+and
+push local 4
+push argument 1
+eq
+push local 8
+push argument 5
+eq
+and
+or
+push local 4
+push argument 2
+eq
+push local 8
+push argument 6
+eq
+and
+or
+push local 4
+push argument 3
+eq
+push local 8
+push argument 7
+eq
+and
+or
+if-goto IF_TRUE87
+goto IF_FALSE87
+label IF_TRUE87
+goto IF_END87
+label IF_FALSE87
+push constant 16384
+push local 4
+push constant 16
+call Math.divide 2
+add
+push local 8
+push constant 32
+call Math.multiply 2
+push constant 32
+add
+add
+pop local 0
+push local 0
+call Memory.peek 1
+pop local 1
+push local 1
+push constant 0
+eq
+not
+if-goto IF_TRUE88
+goto IF_FALSE88
+label IF_TRUE88
+push constant 0
+pop local 13
+label IF_FALSE88
+label IF_END87
+push local 5
+push argument 0
+eq
+push local 9
+push argument 4
+eq
+and
+push local 5
+push argument 1
+eq
+push local 9
+push argument 5
+eq
+and
+or
+push local 5
+push argument 2
+eq
+push local 9
+push argument 6
+eq
+and
+or
+push local 5
+push argument 3
+eq
+push local 9
+push argument 7
+eq
+and
+or
+if-goto IF_TRUE89
+goto IF_FALSE89
+label IF_TRUE89
+goto IF_END89
+label IF_FALSE89
+push constant 16384
+push local 5
+push constant 16
+call Math.divide 2
+add
+push local 9
+push constant 32
+call Math.multiply 2
+push constant 32
+add
+add
+pop local 0
+push local 0
+call Memory.peek 1
+pop local 1
+push local 1
+push constant 0
+eq
+not
+if-goto IF_TRUE90
+goto IF_FALSE90
+label IF_TRUE90
+push constant 0
+pop local 13
+label IF_FALSE90
+label IF_END89
+push local 6
+push argument 0
+eq
+push local 10
+push argument 4
+eq
+and
+push local 6
+push argument 1
+eq
+push local 10
+push argument 5
+eq
+and
+or
+push local 6
+push argument 2
+eq
+push local 10
+push argument 6
+eq
+and
+or
+push local 6
+push argument 3
+eq
+push local 10
+push argument 7
+eq
+and
+or
+if-goto IF_TRUE91
+goto IF_FALSE91
+label IF_TRUE91
+goto IF_END91
+label IF_FALSE91
+push constant 16384
+push local 6
+push constant 16
+call Math.divide 2
+add
+push local 10
+push constant 32
+call Math.multiply 2
+push constant 32
+add
+add
+pop local 0
+push local 0
+call Memory.peek 1
+pop local 1
+push local 1
+push constant 0
+eq
+not
+if-goto IF_TRUE92
+goto IF_FALSE92
+label IF_TRUE92
+push constant 0
+pop local 13
+label IF_FALSE92
+label IF_END91
+push local 7
+push argument 0
+eq
+push local 11
+push argument 4
+eq
+and
+push local 7
+push argument 1
+eq
+push local 11
+push argument 5
+eq
+and
+or
+push local 7
+push argument 2
+eq
+push local 11
+push argument 6
+eq
+and
+or
+push local 7
+push argument 3
+eq
+push local 11
+push argument 7
+eq
+and
+or
+if-goto IF_TRUE93
+goto IF_FALSE93
+label IF_TRUE93
+goto IF_END93
+label IF_FALSE93
+push constant 16384
+push local 7
+push constant 16
+call Math.divide 2
+add
+push local 11
+push constant 32
+call Math.multiply 2
+push constant 32
+add
+add
+pop local 0
+push local 0
+call Memory.peek 1
+pop local 1
+push local 1
+push constant 0
+eq
+not
+if-goto IF_TRUE94
+goto IF_FALSE94
+label IF_TRUE94
+push constant 0
+pop local 13
+label IF_FALSE94
+label IF_END93
+label IF_FALSE86
+push local 13
+return
+function Tetronimo.rotate 0
+push argument 0
+pop pointer 0
+push this 4
+call Block.getBlockX 1
+pop this 14
+push this 5
+call Block.getBlockX 1
+pop this 15
+push this 6
+call Block.getBlockX 1
+pop this 16
+push this 7
+call Block.getBlockX 1
+pop this 17
+push this 4
+call Block.getBlockY 1
+pop this 18
+push this 5
+call Block.getBlockY 1
+pop this 19
+push this 6
+call Block.getBlockY 1
+pop this 20
+push this 7
+call Block.getBlockY 1
+pop this 21
+push constant 1
+pop this 24
+push this 24
+push constant 1
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 14
+push this 15
+push this 16
+push this 17
+push this 18
+push this 19
+push this 20
+push this 21
+push this 22
+push this 23
+push this 0
+push this 1
+call Tetronimo.collisionDetectRotate 12
+pop this 24
+label IF_FALSE0
+push this 24
+push constant 1
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push this 22
+push constant 3
+eq
+push this 23
+push constant 2
+eq
+and
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push this 4
+call Block.hideBlock 1
+pop temp 0
+push this 5
+call Block.hideBlock 1
+pop temp 0
+push this 6
+call Block.hideBlock 1
+pop temp 0
+push this 7
+call Block.hideBlock 1
+pop temp 0
+push this 4
+push this 22
+push this 23
+push this 0
+push this 1
+call Block.rotateBlock 5
+pop temp 0
+push this 5
+push this 22
+push this 23
+push this 0
+push this 1
+call Block.rotateBlock 5
+pop temp 0
+push this 6
+push this 22
+push this 23
+push this 0
+push this 1
+call Block.rotateBlock 5
+pop temp 0
+push this 7
+push this 22
+push this 23
+push this 0
+push this 1
+call Block.rotateBlock 5
+pop temp 0
+push constant 2
+pop this 22
+push constant 3
+pop this 23
+push this 0
+push constant 32
+add
+pop this 2
+push this 1
+push constant 48
+add
+pop this 3
+push constant 0
+return
+label IF_FALSE2
+push this 22
+push constant 2
+eq
+push this 23
+push constant 3
+eq
+and
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push this 4
+call Block.hideBlock 1
+pop temp 0
+push this 5
+call Block.hideBlock 1
+pop temp 0
+push this 6
+call Block.hideBlock 1
+pop temp 0
+push this 7
+call Block.hideBlock 1
+pop temp 0
+push this 4
+push this 22
+push this 23
+push this 0
+push this 1
+call Block.rotateBlock 5
+pop temp 0
+push this 5
+push this 22
+push this 23
+push this 0
+push this 1
+call Block.rotateBlock 5
+pop temp 0
+push this 6
+push this 22
+push this 23
+push this 0
+push this 1
+call Block.rotateBlock 5
+pop temp 0
+push this 7
+push this 22
+push this 23
+push this 0
+push this 1
+call Block.rotateBlock 5
+pop temp 0
+push constant 3
+pop this 22
+push constant 2
+pop this 23
+push this 0
+push constant 48
+add
+pop this 2
+push this 1
+push constant 32
+add
+pop this 3
+push constant 0
+return
+label IF_FALSE3
+push this 22
+push constant 4
+eq
+push this 23
+push constant 1
+eq
+and
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push this 4
+call Block.hideBlock 1
+pop temp 0
+push this 5
+call Block.hideBlock 1
+pop temp 0
+push this 6
+call Block.hideBlock 1
+pop temp 0
+push this 7
+call Block.hideBlock 1
+pop temp 0
+push this 4
+push this 22
+push this 23
+push this 0
+push this 1
+call Block.rotateBlock 5
+pop temp 0
+push this 5
+push this 22
+push this 23
+push this 0
+push this 1
+call Block.rotateBlock 5
+pop temp 0
+push this 6
+push this 22
+push this 23
+push this 0
+push this 1
+call Block.rotateBlock 5
+pop temp 0
+push this 7
+push this 22
+push this 23
+push this 0
+push this 1
+call Block.rotateBlock 5
+pop temp 0
+push constant 1
+pop this 22
+push constant 4
+pop this 23
+push this 0
+push constant 16
+add
+pop this 2
+push this 1
+push constant 64
+add
+pop this 3
+push constant 0
+return
+label IF_FALSE4
+push this 22
+push constant 1
+eq
+push this 23
+push constant 4
+eq
+and
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push this 4
+call Block.hideBlock 1
+pop temp 0
+push this 5
+call Block.hideBlock 1
+pop temp 0
+push this 6
+call Block.hideBlock 1
+pop temp 0
+push this 7
+call Block.hideBlock 1
+pop temp 0
+push this 4
+push this 22
+push this 23
+push this 0
+push this 1
+call Block.rotateBlock 5
+pop temp 0
+push this 5
+push this 22
+push this 23
+push this 0
+push this 1
+call Block.rotateBlock 5
+pop temp 0
+push this 6
+push this 22
+push this 23
+push this 0
+push this 1
+call Block.rotateBlock 5
+pop temp 0
+push this 7
+push this 22
+push this 23
+push this 0
+push this 1
+call Block.rotateBlock 5
+pop temp 0
+push constant 4
+pop this 22
+push constant 1
+pop this 23
+push this 0
+push constant 64
+add
+pop this 2
+push this 1
+push constant 16
+add
+pop this 3
+push constant 0
+return
+label IF_FALSE5
+label IF_FALSE1
+push constant 0
+return
+function Tetronimo.dispose 0
+push argument 0
+pop pointer 0
+push this 4
+call Block.dispose 1
+pop temp 0
+push this 5
+call Block.dispose 1
+pop temp 0
+push this 6
+call Block.dispose 1
+pop temp 0
+push this 7
+call Block.dispose 1
+pop temp 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function Tetronimo.delete 0
+push argument 0
+pop pointer 0
+push this 4
+call Block.hideBlock 1
+pop temp 0
+push this 4
+call Block.dispose 1
+pop temp 0
+push this 5
+call Block.hideBlock 1
+pop temp 0
+push this 5
+call Block.dispose 1
+pop temp 0
+push this 6
+call Block.hideBlock 1
+pop temp 0
+push this 6
+call Block.dispose 1
+pop temp 0
+push this 7
+call Block.hideBlock 1
+pop temp 0
+push this 7
+call Block.dispose 1
+pop temp 0
+push constant 0
+return
