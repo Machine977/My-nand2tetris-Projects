@@ -1,0 +1,2 @@
+To run these programs, you need to have them translated into vm code, and you must open the program as a directory in the vm emulator, not as a single file.
+Same goes for the Jack compiler.

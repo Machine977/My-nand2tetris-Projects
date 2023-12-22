@@ -1,0 +1,823 @@
+
+
+class Tetronimo {
+	field int x, y, x1, y1; //Coordinates for the top-left corner and bottom-right corner of the bounding box, respectively.
+	field Block Block1, Block2, Block3, Block4;
+	field int i, temp, t1, t2, t3, t4; //temp variables used to make sure squares don't overwrite each other.
+	field int tmpx1, tmpx2, tmpx3, tmpx4, tmpy1, tmpy2, tmpy3, tmpy4; //temp variables used for collision detection.
+	field int bboxdimX, bboxdimY; //Bounding box dimensions.
+	field int flag; //flag for collision detection
+
+	constructor Tetronimo OBlocknew(int StartX, int StartY) {
+		let x = StartX;
+		let y = StartY; //Base coordinates. Top-left of Tetronimo.
+		let x1 = x + 32;
+		let y1 = y + 32; //Bottom coordinates. Bottom-right of Tetronimo (used for the purposes of collision detection). Top left y + 16 (1 block) + 16 (end of the block) = y + 32).
+		let bboxdimX = 2;
+		let bboxdimY = 2;
+		
+		let Block1 = Block.new(x, y); //Draw top-left block
+		let Block2 = Block.new(x + 16, y); //Draw top-right block
+		let Block3 = Block.new(x, y + 16); //Draw bottom-left block
+		let Block4 = Block.new(x + 16, y + 16); //Draw bottom-right block
+		return this;
+	}
+	constructor Tetronimo LBlocknew(int StartX, int StartY) {
+		let x = StartX;
+		let y = StartY;
+		let x1 = x + 48;
+		let y1 = y + 32;
+		let bboxdimX = 3;
+		let bboxdimY = 2;
+
+		let Block1 = Block.new(x, y); //Draw top-left block
+		let Block2 = Block.new(x + 16, y); //Draw top-right block
+		let Block3 = Block.new(x + 32, y); //Draw bottom-left block
+		let Block4 = Block.new(x, y + 16); //Draw bottom-right block
+		return this;
+	}
+	constructor Tetronimo JBlocknew(int StartX, int StartY) {
+		let x = StartX;
+		let y = StartY;
+		let x1 = x + 48;
+		let y1 = y + 32;
+		let bboxdimX = 3;
+		let bboxdimY = 2;
+
+		let Block1 = Block.new(x, y); //Draw top-left block
+		let Block2 = Block.new(x, y + 16); //Draw top-right block
+		let Block3 = Block.new(x + 16, y + 16); //Draw bottom-left block
+		let Block4 = Block.new(x + 32, y + 16); //Draw bottom-right block
+		return this;
+	}
+	constructor Tetronimo IBlocknew(int StartX, int StartY) {
+		let x = StartX;
+		let y = StartY;
+		let x1 = x + 64;
+		let y1 = y + 16;
+		let bboxdimX = 4;
+		let bboxdimY = 1;
+
+		let Block1 = Block.new(x, y); //Draw top-left block
+		let Block2 = Block.new(x + 16, y); //Draw top-right block
+		let Block3 = Block.new(x + 32, y); //Draw bottom-left block
+		let Block4 = Block.new(x + 48, y); //Draw bottom-right block
+		return this;
+	}
+	constructor Tetronimo TBlocknew(int StartX, int StartY) {
+		let x = StartX;
+		let y = StartY;
+		let x1 = x + 48;
+		let y1 = y + 32;
+		let bboxdimX = 3;
+		let bboxdimY = 2;
+
+		let Block1 = Block.new(x, y); //Draw top-left block
+		let Block2 = Block.new(x + 16, y); //Draw top-right block
+		let Block3 = Block.new(x + 32, y); //Draw bottom-left block
+		let Block4 = Block.new(x + 16, y + 16); //Draw bottom-right block
+		return this;
+	}
+	constructor Tetronimo SBlocknew(int StartX, int StartY) {
+		let x = StartX;
+		let y = StartY;
+		let x1 = x + 48;
+		let y1 = y + 32;
+		let bboxdimX = 3;
+		let bboxdimY = 2;
+
+		let Block1 = Block.new(x + 16, y); //Draw top-left block
+		let Block2 = Block.new(x + 32, y); //Draw top-right block
+		let Block3 = Block.new(x, y + 16); //Draw bottom-left block
+		let Block4 = Block.new(x + 16, y + 16); //Draw bottom-right block
+		return this;
+	}
+	constructor Tetronimo ZBlocknew(int StartX, int StartY) {
+		let x = StartX;
+		let y = StartY;
+		let x1 = x + 48;
+		let y1 = y + 32;
+		let bboxdimX = 3;
+		let bboxdimY = 2;
+
+		let Block1 = Block.new(x, y); //Draw top-left block
+		let Block2 = Block.new(x + 16, y); //Draw top-right block
+		let Block3 = Block.new(x + 16, y + 16); //Draw bottom-left block
+		let Block4 = Block.new(x + 32, y + 16); //Draw bottom-right block
+		return this;
+	}
+	
+	method void moveup() {
+		if (y > 15) { //don't move up if the top-left of the tetronimo will go out of bounds.
+			let temp = y; //Save the coordinates of the top-left corner of the Tetronimo for later.
+			let y = y - 16; //update y so that it's at the new location for this object. Won't affect the Block object's y, since it's separate.
+			let y1 = y1 - 16; //Update the bottom-right corner too.
+
+			let i = 0;
+			while (i < 4) { //Move the topmost blocks first, so that the bottom blocks don't overwrite the top ones. Go in order from top -> bottom.
+				let t1 = Block1.getBlockY(); //Get a block's y position, check if it's the same as temp. If it is, run it. If not, loop until it is.
+				let t2 = Block2.getBlockY();
+				let t3 = Block3.getBlockY();
+                let t4 = Block4.getBlockY();
+				if (t1 = temp) {do Block1.moveup(); let i = i + 1;} //If 
+				if (t2 = temp) {do Block2.moveup(); let i = i + 1;}
+				if (t3 = temp) {do Block3.moveup(); let i = i + 1;}
+				if (t4 = temp) {do Block4.moveup(); let i = i + 1;}
+				let temp = temp + 16;
+			}
+		  }
+      return;
+	}
+
+	method void moveleft() {
+		if (x > 15) { //don't move up if the top-left of the tetronimo will go out of bounds.
+			
+			//Check collision first, start by assigning block values to temp variables.
+			let tmpx1 = Block1.getBlockX(); let tmpx2 = Block2.getBlockX(); let tmpx3 = Block3.getBlockX(); let tmpx4 = Block4.getBlockX();
+			let tmpy1 = Block1.getBlockY(); let tmpy2 = Block2.getBlockY(); let tmpy3 = Block3.getBlockY(); let tmpy4 = Block4.getBlockY();
+			let flag = Tetronimo.collisionDetectMove(tmpx1, tmpx2, tmpx3, tmpx4, tmpy1, tmpy2, tmpy3, tmpy4, 1);
+			
+			//If collision was successful, proceed.
+			if (flag = 1) {			
+				let temp = x; //Save the coordinates of the top-left corner of the Tetronimo for later.
+				let x = x - 16; //update y so that it's at the new location for this object. Won't affect the Block object's y, since it's separate.
+				let x1 = x1 - 16; //Update the bottom-right corner too.
+
+				let i = 0;
+				while (i < 4) { //Move the topmost blocks first, so that the bottom blocks don't overwrite the top ones. Go in order from top -> bottom.
+					let t1 = Block1.getBlockX(); //Get a block's y position, check if it's the same as temp. If it is, run it. If not, loop until it is.
+					let t2 = Block2.getBlockX();
+					let t3 = Block3.getBlockX();
+					let t4 = Block4.getBlockX();
+					if (t1 = temp) {do Block1.moveleft(); let i = i + 1;} //If 
+					if (t2 = temp) {do Block2.moveleft(); let i = i + 1;}
+					if (t3 = temp) {do Block3.moveleft(); let i = i + 1;}
+					if (t4 = temp) {do Block4.moveleft(); let i = i + 1;}
+					let temp = temp + 16;
+				}
+			}
+		}
+	let flag = 0; //reset flag
+	return;
+	}
+
+	method int movedown() {
+		if (y1 < 241) { //don't move down if the bottom-right of the tetronimo will go out of bounds.
+			
+			//Check collision first, start by assigning block values to temp variables.
+			let tmpx1 = Block1.getBlockX(); let tmpx2 = Block2.getBlockX(); let tmpx3 = Block3.getBlockX(); let tmpx4 = Block4.getBlockX();
+			let tmpy1 = Block1.getBlockY(); let tmpy2 = Block2.getBlockY(); let tmpy3 = Block3.getBlockY(); let tmpy4 = Block4.getBlockY();
+			let flag = Tetronimo.collisionDetectMove(tmpx1, tmpx2, tmpx3, tmpx4, tmpy1, tmpy2, tmpy3, tmpy4, 2);
+			
+			//If collision was successful, proceed.
+			if (flag = 1) {
+				let temp = y1; //Save the coordinates of the bottom-right corner for later.
+				let y = y + 16;
+				let y1 = y1 + 16; //update y1 so that it's at the new location in this object. Won't affect the Block object's y, since it's separate.
+				
+				let i = 0;
+				while (i < 4) { //Move the topmost blocks first, so that the bottom blocks don't overwrite the top ones. Go in order from top -> bottom.
+					let t1 = Block1.getBlockY(); //Get a block's y position, check if it's the same as temp. If it is, run it. If not, loop until it is.
+					let t2 = Block2.getBlockY();
+					let t3 = Block3.getBlockY();
+					let t4 = Block4.getBlockY();
+					if (t1 = temp) {do Block1.movedown(); let i = i + 1;} //If 
+					if (t2 = temp) {do Block2.movedown(); let i = i + 1;}
+					if (t3 = temp) {do Block3.movedown(); let i = i + 1;}
+					if (t4 = temp) {do Block4.movedown(); let i = i + 1;}
+					let temp = temp - 16;
+				}
+			}
+			else { //If you can't move down due to colliding with another block, dispose the object.
+				let flag = 0; //reset flag variable
+				return 1; //Return flag for disposing object.
+			}
+		}
+		else { //If you can't move down due to having reached the bottom of the field, dispose the object.
+			let flag = 0; //reset flag variable
+			return 1; //Return flag for disposing object (separate flag).
+		}
+	let flag = 0; //reset flag variable
+	return 0;
+	}
+
+	method void moveright() {
+		if (x1 < 497) { //don't move up if the bottom-right of the tetronimo will go out of bounds.
+			
+			//Check collision first, start by assigning block values to temp variables.
+			let tmpx1 = Block1.getBlockX(); let tmpx2 = Block2.getBlockX(); let tmpx3 = Block3.getBlockX(); let tmpx4 = Block4.getBlockX();
+			let tmpy1 = Block1.getBlockY(); let tmpy2 = Block2.getBlockY(); let tmpy3 = Block3.getBlockY(); let tmpy4 = Block4.getBlockY();
+			let flag = Tetronimo.collisionDetectMove(tmpx1, tmpx2, tmpx3, tmpx4, tmpy1, tmpy2, tmpy3, tmpy4, 3);
+			
+			//If collision was successful, proceed.
+			if (flag = 1) {
+				let temp = x1; //Save the coordinates of the bottom-right corner for later.
+				let x = x + 16;
+				let x1 = x1 + 16; //update y1 so that it's at the new location in this object. Won't affect the Block object's y, since it's separate.
+				
+				let i = 0;
+				while (i < 4) { //Move the topmost blocks first, so that the bottom blocks don't overwrite the top ones. Go in order from top -> bottom.
+					let t1 = Block1.getBlockX(); //Get a block's y position, check if it's the same as temp. If it is, run it. If not, loop until it is.
+					let t2 = Block2.getBlockX();
+					let t3 = Block3.getBlockX();
+					let t4 = Block4.getBlockX();
+					if (t1 = temp) {do Block1.moveright(); let i = i + 1;} //If 
+					if (t2 = temp) {do Block2.moveright(); let i = i + 1;}
+					if (t3 = temp) {do Block3.moveright(); let i = i + 1;}
+					if (t4 = temp) {do Block4.moveright(); let i = i + 1;}
+					let temp = temp - 16;
+				}
+			}
+		}
+	let flag = 0; //reset flag
+	return;
+	}
+	
+	function int collisionDetectMove(int x1, int x2, int x3, int x4, int y1, int y2, int y3, int y4, int Direction) {
+		//Checks if the given input coordinates are allowed or not. (Checks if they have a block or are out of bounds).
+		
+		var int MemAdr, MemData;
+		var int test, i;
+		var int flag;
+		let flag = 1;
+		
+		//Right direction
+		if (Direction = 3) {
+			
+			//Compare block 1 and 2 if they're on the same level. Get the rightmost block out of them.
+			if (y1 = y2) {
+				if (x1 > x2) {let x2 = x1;}
+				else {let x1 = x2;}
+			}
+			//Compare block 1 and 3 if they're on the same level. Get the rightmost block out of them.
+			if (y1 = y3) {
+				if (x1 > x3) {let x3 = x1;}
+				else {let x1 = x3;}
+			}
+			//Compare block 1 and 4 if they're on the same level. Get the rightmost block out of them.
+			if (y1 = y4) {
+				if (x1 > x4) {let x4 = x1;}
+				else {let x1 = x4;}
+			}
+			//Compare block 2 and 1 if they're on the same level. Get the rightmost block out of them.
+			if (y2 = y1) {
+				if (x2 > x1) {let x1 = x2;}
+				else {let x2 = x1;}
+			}
+			//Compare block 2 and 3 if they're on the same level. Get the rightmost block out of them.
+			if (y2 = y3) {
+				if (x2 > x3) {let x3 = x2;}
+				else {let x2 = x3;}
+			}
+			//Compare block 2 and 4 if they're on the same level. Get the rightmost block out of them.
+			if (y2 = y4) {
+				if (x2 > x4) {let x4 = x2;}
+				else {let x2 = x4;}
+			}
+			//Compare block 3 and 1 if they're on the same level. Get the rightmost block out of them.
+			if (y3 = y1) {
+				if (x3 > x1) {let x1 = x3;}
+				else {let x3 = x1;}
+			}
+			//Compare block 3 and 2 if they're on the same level. Get the rightmost block out of them.
+			if (y3 = y2) {
+				if (x3 > x2) {let x2 = x3;}
+				else {let x3 = x2;}
+			}
+			//Compare block 3 and 4 if they're on the same level. Get the rightmost block out of them.
+			if (y3 = y4) {
+				if (x3 > x4) {let x4 = x3;}
+				else {let x3 = x4;}
+			}
+			//Compare block 4 and 1 if they're on the same level. Get the rightmost block out of them.
+			if (y4 = y1) {
+				if (x4 > x1) {let x1 = x4;}
+				else {let x4 = x1;}
+			}
+			//Compare block 4 and 2 if they're on the same level. Get the rightmost block out of them.
+			if (y4 = y2) {
+				if (x4 > x2) {let x2 = x4;}
+				else {let x4 = x2;}
+			}
+			//Compare block 4 and 3 if they're on the same level. Get the rightmost block out of them.
+			if (y4 = y3) {
+				if (x4 > x3) {let x3 = x4;}
+				else {let x4 = x3;}
+			}
+			//Set target block location
+			let x1 = x1 + 16; let x2 = x2 + 16; let x3 = x3 + 16; let x4 = x4 + 16;
+			
+			let MemAdr = ((16384 + (x1 / 16)) + ((y1 * 32) + 32));
+			let MemData = Memory.peek(MemAdr);
+			if (~(MemData = 0)) {
+				let flag = 0;
+			}
+			let MemAdr = ((16384 + (x2 / 16)) + ((y2 * 32) + 32));
+			let MemData = Memory.peek(MemAdr);
+			if (~(MemData = 0)) {
+				let flag = 0;
+			}
+			let MemAdr = ((16384 + (x3 / 16)) + ((y3 * 32) + 32));
+			let MemData = Memory.peek(MemAdr);
+			if (~(MemData = 0)) {
+				let flag = 0;
+			}
+			let MemAdr = ((16384 + (x4 / 16)) + ((y4 * 32) + 32));
+			let MemData = Memory.peek(MemAdr);
+			if (~(MemData = 0)) {
+				let flag = 0;
+			}			
+		}
+		
+		//Down direction
+		if (Direction = 2) {
+			
+			//Compare block 1 and 2 if they're in the same column. Get the bottommost block out of them.
+			if (x1 = x2) {
+				if (y1 > y2) {let y2 = y1;}
+				else {let y1 = y2;}
+			}
+			//Compare block 1 and 3 if they're in the same column. Get the bottommost block out of them.
+			if (x1 = x3) {
+				if (y1 > y3) {let y3 = y1;}
+				else {let y1 = y3;}
+			}
+			//Compare block 1 and 4 if they're in the same column. Get the bottommost block out of them.
+			if (x1 = x4) {
+				if (y1 > y4) {let y4 = y1;}
+				else {let y1 = y4;}
+			}
+			//Compare block 2 and 1 if they're in the same column. Get the bottommost block out of them.
+			if (x2 = x1) {
+				if (y2 > y1) {let y1 = y2;}
+				else {let y2 = y1;}
+			}
+			//Compare block 2 and 3 if they're in the same column. Get the bottommost block out of them.
+			if (x2 = x3) {
+				if (y2 > y3) {let y3 = y2;}
+				else {let y2 = y3;}
+			}
+			//Compare block 2 and 4 if they're in the same column. Get the bottommost block out of them.
+			if (x2 = x4) {
+				if (y2 > y4) {let y4 = y2;}
+				else {let y2 = y4;}
+			}
+			//Compare block 3 and 1 if they're in the same column. Get the bottommost block out of them.
+			if (x3 = x1) {
+				if (y3 > y1) {let y1 = y3;}
+				else {let y3 = y1;}
+			}
+			//Compare block 3 and 2 if they're in the same column. Get the bottommost block out of them.
+			if (x3 = x2) {
+				if (y3 > y2) {let y2 = y3;}
+				else {let y3 = y2;}
+			}
+			//Compare block 3 and 4 if they're in the same column. Get the bottommost block out of them.
+			if (x3 = x4) {
+				if (y3 > y4) {let y4 = y3;}
+				else {let y3 = y4;}
+			}
+			//Compare block 4 and 1 if they're in the same column. Get the bottommost block out of them.
+			if (x4 = x1) {
+				if (y4 > y1) {let y1 = y4;}
+				else {let y4 = y1;}
+			}
+			//Compare block 4 and 2 if they're in the same column. Get the bottommost block out of them.
+			if (x4 = x2) {
+				if (y4 > y2) {let y2 = y4;}
+				else {let y4 = y2;}
+			}
+			//Compare block 4 and 3 if they're in the same column. Get the bottommost block out of them.
+			if (x4 = x3) {
+				if (y4 > y3) {let y3 = y4;}
+				else {let y4 = y3;}
+			}
+			//Set target block location
+			let y1 = y1 + 16; let y2 = y2 + 16; let y3 = y3 + 16; let y4 = y4 + 16;
+			
+			let MemAdr = ((16384 + (x1 / 16)) + ((y1 * 32) + 32));
+			let MemData = Memory.peek(MemAdr);
+			if (~(MemData = 0)) {
+				let flag = 0;
+			}
+			let MemAdr = ((16384 + (x2 / 16)) + ((y2 * 32) + 32));
+			let MemData = Memory.peek(MemAdr);
+			if (~(MemData = 0)) {
+				let flag = 0;
+			}
+			let MemAdr = ((16384 + (x3 / 16)) + ((y3 * 32) + 32));
+			let MemData = Memory.peek(MemAdr);
+			if (~(MemData = 0)) {
+				let flag = 0;
+			}
+			let MemAdr = ((16384 + (x4 / 16)) + ((y4 * 32) + 32));
+			let MemData = Memory.peek(MemAdr);
+			if (~(MemData = 0)) {
+				let flag = 0;
+			}			
+		}
+		
+		//Left direction
+		if (Direction = 1) {
+			
+			//Compare block 1 and 2 if they're on the same level. Get the rightmost block out of them.
+			if (y1 = y2) {
+				if (x1 < x2) {let x2 = x1;}
+				else {let x1 = x2;}
+			}
+			//Compare block 1 and 3 if they're on the same level. Get the rightmost block out of them.
+			if (y1 = y3) {
+				if (x1 < x3) {let x3 = x1;}
+				else {let x1 = x3;}
+			}
+			//Compare block 1 and 4 if they're on the same level. Get the rightmost block out of them.
+			if (y1 = y4) {
+				if (x1 < x4) {let x4 = x1;}
+				else {let x1 = x4;}
+			}
+			//Compare block 2 and 1 if they're on the same level. Get the rightmost block out of them.
+			if (y2 = y1) {
+				if (x2 < x1) {let x1 = x2;}
+				else {let x2 = x1;}
+			}
+			//Compare block 2 and 3 if they're on the same level. Get the rightmost block out of them.
+			if (y2 = y3) {
+				if (x2 < x3) {let x3 = x2;}
+				else {let x2 = x3;}
+			}
+			//Compare block 2 and 4 if they're on the same level. Get the rightmost block out of them.
+			if (y2 = y4) {
+				if (x2 < x4) {let x4 = x2;}
+				else {let x2 = x4;}
+			}
+			//Compare block 3 and 1 if they're on the same level. Get the rightmost block out of them.
+			if (y3 = y1) {
+				if (x3 < x1) {let x1 = x3;}
+				else {let x3 = x1;}
+			}
+			//Compare block 3 and 2 if they're on the same level. Get the rightmost block out of them.
+			if (y3 = y2) {
+				if (x3 < x2) {let x2 = x3;}
+				else {let x3 = x2;}
+			}
+			//Compare block 3 and 4 if they're on the same level. Get the rightmost block out of them.
+			if (y3 = y4) {
+				if (x3 < x4) {let x4 = x3;}
+				else {let x3 = x4;}
+			}
+			//Compare block 4 and 1 if they're on the same level. Get the rightmost block out of them.
+			if (y4 = y1) {
+				if (x4 < x1) {let x1 = x4;}
+				else {let x4 = x1;}
+			}
+			//Compare block 4 and 2 if they're on the same level. Get the rightmost block out of them.
+			if (y4 = y2) {
+				if (x4 < x2) {let x2 = x4;}
+				else {let x4 = x2;}
+			}
+			//Compare block 4 and 3 if they're on the same level. Get the rightmost block out of them.
+			if (y4 = y3) {
+				if (x4 < x3) {let x3 = x4;}
+				else {let x4 = x3;}
+			}
+			//Set target block location
+			let x1 = x1 - 16; let x2 = x2 - 16; let x3 = x3 - 16; let x4 = x4 - 16;
+			
+			let MemAdr = ((16384 + (x1 / 16)) + ((y1 * 32) + 32));
+			let MemData = Memory.peek(MemAdr);
+			if (~(MemData = 0)) {
+				let flag = 0;
+			}
+			let MemAdr = ((16384 + (x2 / 16)) + ((y2 * 32) + 32));
+			let MemData = Memory.peek(MemAdr);
+			if (~(MemData = 0)) {
+				let flag = 0;
+			}
+			let MemAdr = ((16384 + (x3 / 16)) + ((y3 * 32) + 32));
+			let MemData = Memory.peek(MemAdr);
+			if (~(MemData = 0)) {
+				let flag = 0;
+			}
+			let MemAdr = ((16384 + (x4 / 16)) + ((y4 * 32) + 32));
+			let MemData = Memory.peek(MemAdr);
+			if (~(MemData = 0)) {
+				let flag = 0;
+			}			
+		}
+		
+		if (flag = 0) {
+			return 0;
+		}
+		return 1;
+	}
+
+	function int collisionDetectRotate(int x1, int x2, int x3, int x4, int y1, int y2, int y3, int y4, int bboxdimX, int bboxdimY, int CornerX, int CornerY) {
+		var int MemAdr, MemData;
+		var int test, i;
+		var int newx1, newx2, newx3, newx4, newy1, newy2, newy3, newy4; //New locations of block coordinates after rotate
+		var int ycheckY; //For checking if the new tetronimo shape will be out of bounds.
+		var int flag;
+		let flag = 1;
+		
+		if ((bboxdimX = 3) & (bboxdimY = 2)) {
+			//Check top-left block.
+			if ((x1 = CornerX) & (y1 = CornerY)) {let newx1 = x1 + 16; let newy1 = y1;}
+			if ((x2 = CornerX) & (y2 = CornerY)) {let newx2 = x2 + 16; let newy2 = y2;}
+			if ((x3 = CornerX) & (y3 = CornerY)) {let newx3 = x3 + 16; let newy3 = y3;}
+			if ((x4 = CornerX) & (y4 = CornerY)) {let newx4 = x4 + 16; let newy4 = y4;}
+			
+			//Check top-middle block.
+			if ((x1 = (CornerX + 16)) & (y1 = CornerY)) {let newx1 = x1; let newy1 = y1 + 16;}
+			if ((x2 = (CornerX + 16)) & (y2 = CornerY)) {let newx2 = x2; let newy2 = y2 + 16;}
+			if ((x3 = (CornerX + 16)) & (y3 = CornerY)) {let newx3 = x3; let newy3 = y3 + 16;}
+			if ((x4 = (CornerX + 16)) & (y4 = CornerY)) {let newx4 = x4; let newy4 = y4 + 16;}
+			
+			//Check top-right block.
+			if ((x1 = (CornerX + 32)) & (y1 = CornerY)) {let newx1 = x1 - 16; let newy1 = y1 + 32;}
+			if ((x2 = (CornerX + 32)) & (y2 = CornerY)) {let newx2 = x2 - 16; let newy2 = y2 + 32;}
+			if ((x3 = (CornerX + 32)) & (y3 = CornerY)) {let newx3 = x3 - 16; let newy3 = y3 + 32;}
+			if ((x4 = (CornerX + 32)) & (y4 = CornerY)) {let newx4 = x4 - 16; let newy4 = y4 + 32;}
+			
+			//Check bottom-left block.
+			if ((x1 = CornerX) & (y1 = (CornerY + 16))) {let newx1 = x1; let newy1 = y1 - 16;}
+			if ((x2 = CornerX) & (y2 = (CornerY + 16))) {let newx2 = x2; let newy2 = y2 - 16;}
+			if ((x3 = CornerX) & (y3 = (CornerY + 16))) {let newx3 = x3; let newy3 = y3 - 16;}
+			if ((x4 = CornerX) & (y4 = (CornerY + 16))) {let newx4 = x4; let newy4 = y4 - 16;}
+			
+			//Check bottom-middle block.
+			if ((x1 = (CornerX + 16)) & (y1 = (CornerY + 16))) {let newx1 = x1 - 16; let newy1 = y1;}
+			if ((x2 = (CornerX + 16)) & (y2 = (CornerY + 16))) {let newx2 = x2 - 16; let newy2 = y2;}
+			if ((x3 = (CornerX + 16)) & (y3 = (CornerY + 16))) {let newx3 = x3 - 16; let newy3 = y3;}
+			if ((x4 = (CornerX + 16)) & (y4 = (CornerY + 16))) {let newx4 = x4 - 16; let newy4 = y4;}
+
+			//Check bottom-right block.
+			if ((x1 = (CornerX + 32)) & (y1 = (CornerY + 16))) {let newx1 = x1 - 32; let newy1 = y1 + 16;}
+			if ((x2 = (CornerX + 32)) & (y2 = (CornerY + 16))) {let newx2 = x2 - 32; let newy2 = y2 + 16;}
+			if ((x3 = (CornerX + 32)) & (y3 = (CornerY + 16))) {let newx3 = x3 - 32; let newy3 = y3 + 16;}
+			if ((x4 = (CornerX + 32)) & (y4 = (CornerY + 16))) {let newx4 = x4 - 32; let newy4 = y4 + 16;}
+			
+			//Check that the Y doesn't go out of bounds.
+			let ycheckY = CornerY + 48;
+			if (ycheckY > 256) {
+				let flag = 0;
+			}
+		}
+		
+		if ((bboxdimX = 2) & (bboxdimY = 3)) {
+			//Check top-left block.
+			if ((x1 = CornerX) & (y1 = CornerY)) {let newx1 = x1 + 32; let newy1 = y1;}
+			if ((x2 = CornerX) & (y2 = CornerY)) {let newx2 = x2 + 32; let newy2 = y2;}
+			if ((x3 = CornerX) & (y3 = CornerY)) {let newx3 = x3 + 32; let newy3 = y3;}
+			if ((x4 = CornerX) & (y4 = CornerY)) {let newx4 = x4 + 32; let newy4 = y4;}
+			
+			//Check top-right block.
+			if ((x1 = (CornerX + 16)) & (y1 = CornerY)) {let newx1 = x1 + 16; let newy1 = y1 + 16;}
+			if ((x2 = (CornerX + 16)) & (y2 = CornerY)) {let newx2 = x2 + 16; let newy2 = y2 + 16;}
+			if ((x3 = (CornerX + 16)) & (y3 = CornerY)) {let newx3 = x3 + 16; let newy3 = y3 + 16;}
+			if ((x4 = (CornerX + 16)) & (y4 = CornerY)) {let newx4 = x4 + 16; let newy4 = y4 + 16;}
+			
+			//Check middle-left block.
+			if ((x1 = (CornerX)) & (y1 = (CornerY + 16))) {let newx1 = x1 + 16; let newy1 = y1 - 16;}
+			if ((x2 = (CornerX)) & (y2 = (CornerY + 16))) {let newx2 = x2 + 16; let newy2 = y2 - 16;}
+			if ((x3 = (CornerX)) & (y3 = (CornerY + 16))) {let newx3 = x3 + 16; let newy3 = y3 - 16;}
+			if ((x4 = (CornerX)) & (y4 = (CornerY + 16))) {let newx4 = x4 + 16; let newy4 = y4 - 16;}
+			
+			//Check middle-right block.
+			if ((x1 = (CornerX + 16)) & (y1 = (CornerY + 16))) {let newx1 = x1; let newy1 = y1;}
+			if ((x2 = (CornerX + 16)) & (y2 = (CornerY + 16))) {let newx2 = x2; let newy2 = y2;}
+			if ((x3 = (CornerX + 16)) & (y3 = (CornerY + 16))) {let newx3 = x3; let newy3 = y3;}
+			if ((x4 = (CornerX + 16)) & (y4 = (CornerY + 16))) {let newx4 = x4; let newy4 = y4;}
+			
+			//Check bottom-left block.
+			if ((x1 = CornerX) & (y1 = (CornerY + 32))) {let newx1 = x1; let newy1 = y1 - 32;}
+			if ((x2 = CornerX) & (y2 = (CornerY + 32))) {let newx2 = x2; let newy2 = y2 - 32;}
+			if ((x3 = CornerX) & (y3 = (CornerY + 32))) {let newx3 = x3; let newy3 = y3 - 32;}
+			if ((x4 = CornerX) & (y4 = (CornerY + 32))) {let newx4 = x4; let newy4 = y4 - 32;}
+
+			//Check bottom-right block.
+			if ((x1 = (CornerX + 16)) & (y1 = (CornerY + 32))) {let newx1 = x1 - 16; let newy1 = y1 - 16;}
+			if ((x2 = (CornerX + 16)) & (y2 = (CornerY + 32))) {let newx2 = x2 - 16; let newy2 = y2 - 16;}
+			if ((x3 = (CornerX + 16)) & (y3 = (CornerY + 32))) {let newx3 = x3 - 16; let newy3 = y3 - 16;}
+			if ((x4 = (CornerX + 16)) & (y4 = (CornerY + 32))) {let newx4 = x4 - 16; let newy4 = y4 - 16;}
+		}
+		
+		if ((bboxdimX = 4) & (bboxdimY = 1)) {
+			//Check top-left block.
+			if ((x1 = CornerX) & (y1 = CornerY)) {let newx1 = x1; let newy1 = y1;}
+			if ((x2 = CornerX) & (y2 = CornerY)) {let newx2 = x2; let newy2 = y2;}
+			if ((x3 = CornerX) & (y3 = CornerY)) {let newx3 = x3; let newy3 = y3;}
+			if ((x4 = CornerX) & (y4 = CornerY)) {let newx4 = x4; let newy4 = y4;}
+			
+			//Check second block from the left.
+			if ((x1 = (CornerX + 16)) & (y1 = CornerY)) {let newx1 = x1 - 16; let newy1 = y1 + 16;}
+			if ((x2 = (CornerX + 16)) & (y2 = CornerY)) {let newx2 = x2 - 16; let newy2 = y2 + 16;}
+			if ((x3 = (CornerX + 16)) & (y3 = CornerY)) {let newx3 = x3 - 16; let newy3 = y3 + 16;}
+			if ((x4 = (CornerX + 16)) & (y4 = CornerY)) {let newx4 = x4 - 16; let newy4 = y4 + 16;}
+			
+			//Check third block from the left.
+			if ((x1 = (CornerX + 32)) & (y1 = CornerY)) {let newx1 = x1 - 32; let newy1 = y1 + 32;}
+			if ((x2 = (CornerX + 32)) & (y2 = CornerY)) {let newx2 = x2 - 32; let newy2 = y2 + 32;}
+			if ((x3 = (CornerX + 32)) & (y3 = CornerY)) {let newx3 = x3 - 32; let newy3 = y3 + 32;}
+			if ((x4 = (CornerX + 32)) & (y4 = CornerY)) {let newx4 = x4 - 32; let newy4 = y4 + 32;}
+			
+			//Check rightmost block.
+			if ((x1 = (CornerX + 48)) & (y1 = CornerY)) {let newx1 = x1 - 48; let newy1 = y1 + 48;}
+			if ((x2 = (CornerX + 48)) & (y2 = CornerY)) {let newx2 = x2 - 48; let newy2 = y2 + 48;}
+			if ((x3 = (CornerX + 48)) & (y3 = CornerY)) {let newx3 = x3 - 48; let newy3 = y3 + 48;}
+			if ((x4 = (CornerX + 48)) & (y4 = CornerY)) {let newx4 = x4 - 48; let newy4 = y4 + 48;}
+
+			//Check that the Y doesn't go out of bounds.
+			let ycheckY = CornerY + 64;
+			if (ycheckY > 256) {
+				let flag = 0;
+			}
+		}
+		
+		if ((bboxdimX = 1) & (bboxdimY = 4)) {
+			//Check top-left block.
+			if ((x1 = CornerX) & (y1 = CornerY)) {let newx1 = x1; let newy1 = y1;}
+			if ((x2 = CornerX) & (y2 = CornerY)) {let newx2 = x2; let newy2 = y2;}
+			if ((x3 = CornerX) & (y3 = CornerY)) {let newx3 = x3; let newy3 = y3;}
+			if ((x4 = CornerX) & (y4 = CornerY)) {let newx4 = x4; let newy4 = y4;}
+			
+			//Check second block from the top.
+			if ((x1 = CornerX) & (y1 = (CornerY + 16))) {let newx1 = x1 + 16; let newy1 = y1 - 16;}
+			if ((x2 = CornerX) & (y2 = (CornerY + 16))) {let newx2 = x2 + 16; let newy2 = y2 - 16;}
+			if ((x3 = CornerX) & (y3 = (CornerY + 16))) {let newx3 = x3 + 16; let newy3 = y3 - 16;}
+			if ((x4 = CornerX) & (y4 = (CornerY + 16))) {let newx4 = x4 + 16; let newy4 = y4 - 16;}
+			
+			//Check third block from the top.
+			if ((x1 = CornerX) & (y1 = (CornerY + 32))) {let newx1 = x1 + 32; let newy1 = y1 - 32;}
+			if ((x2 = CornerX) & (y2 = (CornerY + 32))) {let newx2 = x2 + 32; let newy2 = y2 - 32;}
+			if ((x3 = CornerX) & (y3 = (CornerY + 32))) {let newx3 = x3 + 32; let newy3 = y3 - 32;}
+			if ((x4 = CornerX) & (y4 = (CornerY + 32))) {let newx4 = x4 + 32; let newy4 = y4 - 32;}
+			
+			//Check bottommost block.
+			if ((x1 = CornerX) & (y1 = (CornerY + 48))) {let newx1 = x1 + 48; let newy1 = y1 - 48;}
+			if ((x2 = CornerX) & (y2 = (CornerY + 48))) {let newx2 = x2 + 48; let newy2 = y2 - 48;}
+			if ((x3 = CornerX) & (y3 = (CornerY + 48))) {let newx3 = x3 + 48; let newy3 = y3 - 48;}
+			if ((x4 = CornerX) & (y4 = (CornerY + 48))) {let newx4 = x4 + 48; let newy4 = y4 - 48;}
+
+		}
+		
+		if (flag = 1) { //Only run if the new bottom-right corner of the tetronimo isn't out of bounds.
+			//Check if block 1's new location is already taken. Only does the check if the location won't be taken by the other blocks in the rotate.
+			if (((newx1 = x1) & (newy1 = y1)) | ((newx1 = x2) & (newy1 = y2)) | ((newx1 = x3) & (newy1 = y3)) | ((newx1 = x4) & (newy1 = y4))) {
+				//do Output.printString("Test");
+			}
+			else {
+				let MemAdr = ((16384 + (newx1 / 16)) + ((newy1 * 32) + 32));
+				let MemData = Memory.peek(MemAdr);
+				if (~(MemData = 0)) {
+					let flag = 0;
+					//do Output.printString(" Rotateblock block ");
+				}
+			}
+			//Check if block 2's new location is already taken. Only does the check if the location won't be taken by the other blocks in the rotate.
+			if (((newx2 = x1) & (newy2 = y1)) | ((newx2 = x2) & (newy2 = y2)) | ((newx2 = x3) & (newy2 = y3)) | ((newx2 = x4) & (newy2 = y4))) {
+				//do Output.printString("Test");
+			}
+			else {
+				let MemAdr = ((16384 + (newx2 / 16)) + ((newy2 * 32) + 32));
+				let MemData = Memory.peek(MemAdr);
+				if (~(MemData = 0)) {
+					let flag = 0;
+					//do Output.printString(" Rotateblock block ");
+				}
+			}
+			//Check if block 3's new location is already taken. Only does the check if the location won't be taken by the other blocks in the rotate.
+			if (((newx3 = x1) & (newy3 = y1)) | ((newx3 = x2) & (newy3 = y2)) | ((newx3 = x3) & (newy3 = y3)) | ((newx3 = x4) & (newy3 = y4))) {
+				//do Output.printString("Test");
+			}
+			else {
+				let MemAdr = ((16384 + (newx3 / 16)) + ((newy3 * 32) + 32));
+				let MemData = Memory.peek(MemAdr);
+				if (~(MemData = 0)) {
+					let flag = 0;
+					//do Output.printString(" Rotateblock block ");
+				}
+			}
+			//Check if block 4's new location is already taken. Only does the check if the location won't be taken by the other blocks in the rotate.
+			if (((newx4 = x1) & (newy4 = y1)) | ((newx4 = x2) & (newy4 = y2)) | ((newx4 = x3) & (newy4 = y3)) | ((newx4 = x4) & (newy4 = y4))) {
+				//do Output.printString("Test");
+			}
+			else {
+				let MemAdr = ((16384 + (newx4 / 16)) + ((newy4 * 32) + 32));
+				let MemData = Memory.peek(MemAdr);
+				if (~(MemData = 0)) {
+					let flag = 0;
+					//do Output.printString(" Rotateblock block ");
+				}
+			}
+		}
+		return flag;
+	}
+
+	method void rotate() {
+		//Assign temp values for collision detection.
+		let tmpx1 = Block1.getBlockX(); let tmpx2 = Block2.getBlockX(); let tmpx3 = Block3.getBlockX(); let tmpx4 = Block4.getBlockX();
+		let tmpy1 = Block1.getBlockY(); let tmpy2 = Block2.getBlockY(); let tmpy3 = Block3.getBlockY(); let tmpy4 = Block4.getBlockY();
+		
+		let flag = 1;
+		
+		//Out of bounds check
+//		if ((y1) > 255) {
+//			let flag = 0;
+//			do Output.printString("out of bounds (Y axis)");
+//		}
+		
+		
+		//Do collision detection
+		if (flag = 1) {
+			let flag = Tetronimo.collisionDetectRotate(tmpx1, tmpx2, tmpx3, tmpx4, tmpy1, tmpy2, tmpy3, tmpy4, bboxdimX, bboxdimY, x, y);
+		}
+		
+		if (flag = 1) {
+			// Find out the tetronimo bounding box's dimensions. (x, y): 2x2, 2x3, 3x2, 1x4, 4x1,
+			//3x2
+			if ((bboxdimX = 3) & (bboxdimY = 2)) {
+				do Block1.hideBlock(); //Hide the blocks so that we don't draw over them.
+				do Block2.hideBlock();
+				do Block3.hideBlock();
+				do Block4.hideBlock();
+				do Block1.rotateBlock(bboxdimX, bboxdimY, x, y); 
+				do Block2.rotateBlock(bboxdimX, bboxdimY, x, y); 
+				do Block3.rotateBlock(bboxdimX, bboxdimY, x, y); 
+				do Block4.rotateBlock(bboxdimX, bboxdimY, x, y);
+				let bboxdimX = 2;
+				let bboxdimY = 3;
+				let x1 = x + 32;
+				let y1 = y + 48;
+				return;
+			}
+			//2x3
+			if ((bboxdimX = 2) & (bboxdimY = 3)) {
+				do Block1.hideBlock(); //Hide the blocks so that we don't draw over them.
+				do Block2.hideBlock();
+				do Block3.hideBlock();
+				do Block4.hideBlock();
+				do Block1.rotateBlock(bboxdimX, bboxdimY, x, y); 
+				do Block2.rotateBlock(bboxdimX, bboxdimY, x, y); 
+				do Block3.rotateBlock(bboxdimX, bboxdimY, x, y); 
+				do Block4.rotateBlock(bboxdimX, bboxdimY, x, y);
+				let bboxdimX = 3;
+				let bboxdimY = 2;
+				let x1 = x + 48;
+				let y1 = y + 32;
+				return;
+			}
+			//4x1
+			if ((bboxdimX = 4) & (bboxdimY = 1)){
+				do Block1.hideBlock(); //Hide the blocks so that we don't draw over them.
+				do Block2.hideBlock();
+				do Block3.hideBlock();
+				do Block4.hideBlock();
+				do Block1.rotateBlock(bboxdimX, bboxdimY, x, y); 
+				do Block2.rotateBlock(bboxdimX, bboxdimY, x, y); 
+				do Block3.rotateBlock(bboxdimX, bboxdimY, x, y); 
+				do Block4.rotateBlock(bboxdimX, bboxdimY, x, y);
+				let bboxdimX = 1;
+				let bboxdimY = 4;
+				let x1 = x + 16;
+				let y1 = y + 64;
+				return;
+			}
+			//1x4
+			if ((bboxdimX = 1) & (bboxdimY = 4)){
+				do Block1.hideBlock(); //Hide the blocks so that we don't draw over them.
+				do Block2.hideBlock();
+				do Block3.hideBlock();
+				do Block4.hideBlock();
+				do Block1.rotateBlock(bboxdimX, bboxdimY, x, y); 
+				do Block2.rotateBlock(bboxdimX, bboxdimY, x, y); 
+				do Block3.rotateBlock(bboxdimX, bboxdimY, x, y); 
+				do Block4.rotateBlock(bboxdimX, bboxdimY, x, y);
+				let bboxdimX = 4;
+				let bboxdimY = 1;
+				let x1 = x + 64;
+				let y1 = y + 16;
+				return;
+			}
+		//2x2 needs no handling, since rotate does nothing.
+		}
+		return;
+		//Move if the x/y values of the block (get) match the top-leftmost corner +- an amount of x/y
+	}
+
+	method void dispose(){
+		do Block1.dispose();
+		do Block2.dispose();
+		do Block3.dispose();
+		do Block4.dispose();
+		do Memory.deAlloc(this);
+		return;
+	}
+	
+	method void delete(){ //Disposes the object and also deletes the tetronimo's blocks.
+		do Block1.hideBlock(); do Block1.dispose();
+		do Block2.hideBlock(); do Block2.dispose();
+		do Block3.hideBlock(); do Block3.dispose();
+		do Block4.hideBlock(); do Block4.dispose();
+		return;
+	}
+}

@@ -1,0 +1,109 @@
+
+
+class Block {
+	field int x, y;
+	field int blocksize;
+	constructor Block new(int ax, int ay) {
+		let x = ax;
+		let y = ay;
+		let blocksize = 14;
+		do Block.draw(x, y, blocksize);
+		return this;
+	}
+	
+	function void draw(int x, int y, int blocksize) {
+		do Screen.setColor(true);
+		do Screen.drawRectangle(x+1, y+1, x + blocksize, y + blocksize);
+		return;
+	}
+	
+	function void erase(int x, int y, int blocksize) {
+		do Screen.setColor(false);
+		do Screen.drawRectangle(x+1, y+1, x + blocksize, y + blocksize);
+		return;
+	}
+	
+	method void moveup() {
+		if (y > 15) {
+			do Block.erase(x, y, blocksize);
+			let y = y - 16;
+			do Block.draw(x, y, blocksize);
+		}
+		return;
+	}
+	method void moveleft() {
+		if (x > 15) {
+			do Block.erase(x, y, blocksize);
+			let x = x - 16;
+			do Block.draw(x, y, blocksize);
+		}
+		return;
+	}
+	method void movedown() {
+		if (y < 240) { //Don't move down if the block will go out of bounds. When y = 240, the bottom of the block space is touching the edge of the screen (256).
+			do Block.erase(x, y, blocksize);
+			let y = y + 16;
+			do Block.draw(x, y, blocksize);
+		}
+		return;
+	}
+	method void moveright() {
+		if (x < 496) { //Don't move down if the block will go out of bounds. When y = 240, the bottom of the block space is touching the edge of the screen (256).
+			do Block.erase(x, y, blocksize);
+			let x = x + 16;
+			do Block.draw(x, y, blocksize);
+		}
+		return;
+	}
+	
+	method void rotateBlock(int bboxdimX, int bboxdimY, int TetronimoX, int TetronimoY){
+		//3x2
+		if ((bboxdimX = 3) & (bboxdimY = 2)) {
+			if ((x = TetronimoX) & (y = TetronimoY)) {let x = x + 16; do Block.draw(x, y, blocksize); return;} //Move 3x2 top left block to 2x3 top right
+			if ((x = (TetronimoX + 16)) & (y = TetronimoY)) {let y = y + 16; do Block.draw(x, y, blocksize); return;} //Move 3x2 top middle block to 2x3 middle right
+			if ((x = (TetronimoX + 32)) & (y = TetronimoY)) {let x = x - 16; let y = y + 32; do Block.draw(x, y, blocksize); return;} //Move 3x2 top right block to 2x3 top right
+			if ((x = TetronimoX) & (y = (TetronimoY + 16))) {let y = y - 16; do Block.draw(x, y, blocksize); return;} //Move 3x2 bottom left block to 2x3 top right
+			if ((x = (TetronimoX + 16)) & (y = (TetronimoY + 16))) {let x = x - 16; do Block.draw(x, y, blocksize); return;} //Move 3x2 bottom middle block to 2x3 top right
+			if ((x = (TetronimoX + 32)) & (y = (TetronimoY + 16))) {let x = x - 32; let y = y + 16; do Block.draw(x, y, blocksize); return;} //Move 3x2 bottom right block to 2x3 top right
+		}
+		//2x3
+		if ((bboxdimX = 2) & (bboxdimY = 3)) {
+			if ((x = TetronimoX) & (y = TetronimoY)) {let x = x + 32; do Block.draw(x, y, blocksize); return;} //Move 2x3 top left block to 3x2 top right
+			if ((x = (TetronimoX + 16)) & (y = TetronimoY)) {let x = x + 16; let y = y + 16; do Block.draw(x, y, blocksize); return;} //Move 2x3 top right block to 3x2 middle right
+			if ((x = TetronimoX) & (y = (TetronimoY + 16))) {let x = x + 16; let y = y - 16; do Block.draw(x, y, blocksize); return;} //Move 2x3 middle left block to 3x2 top right
+			if ((x = (TetronimoX + 16)) & (y = (TetronimoY + 16))) {do Block.draw(x, y, blocksize); return;} //Move 2x3 middle right block to 3x2 top right
+			if ((x = TetronimoX) & (y = (TetronimoY + 32))) {let y = y - 32; do Block.draw(x, y, blocksize); return;} //Move 2x3 bottom left block to 3x2 top right
+			if ((x = (TetronimoX + 16)) & (y = (TetronimoY + 32))) {let x = x - 16; let y = y - 16; do Block.draw(x, y, blocksize); return;} //Move 2x3 bottom right block to 3x2 top right
+		}
+		//4x1
+		if ((bboxdimX = 4) & (bboxdimY = 1)) {
+			if ((x = TetronimoX) & (y = TetronimoY)) {do Block.draw(x, y, blocksize); return;} //Move 2x3 top left block to 3x2 top right
+			if ((x = (TetronimoX + 16)) & (y = TetronimoY)) {let x = x - 16; let y = y + 16; do Block.draw(x, y, blocksize); return;} //Move 2x3 top right block to 3x2 middle right
+			if ((x = (TetronimoX + 32)) & (y = TetronimoY)) {let x = x - 32; let y = y + 32; do Block.draw(x, y, blocksize); return;} //Move 2x3 middle left block to 3x2 top right
+			if ((x = (TetronimoX + 48)) & (y = TetronimoY)) {let x = x - 48; let y = y + 48; do Block.draw(x, y, blocksize); return;} //Move 2x3 middle right block to 3x2 top right
+		}
+		//1x4
+		if ((bboxdimX = 1) & (bboxdimY = 4)) {
+			if ((x = TetronimoX) & (y = TetronimoY)) {do Block.draw(x, y, blocksize); return;} //Move 2x3 top left block to 3x2 top right
+			if ((x = (TetronimoX)) & (y = (TetronimoY + 16))) {let x = x + 16; let y = y - 16; do Block.draw(x, y, blocksize); return;} //Move 2x3 top right block to 3x2 middle right
+			if ((x = (TetronimoX)) & (y = (TetronimoY + 32))) {let x = x + 32; let y = y - 32; do Block.draw(x, y, blocksize); return;} //Move 2x3 middle left block to 3x2 top right
+			if ((x = (TetronimoX)) & (y = (TetronimoY + 48))) {let x = x + 48; let y = y - 48; do Block.draw(x, y, blocksize); return;} //Move 2x3 middle right block to 3x2 top right
+		}
+		return;
+	}
+
+	method void hideBlock() {
+		do Block.erase(x, y, blocksize);
+		return;
+	}
+
+	//Removes the block object, but leaves the block intact in the playing field.
+	method void dispose() {
+		do Memory.deAlloc(this);
+		return;
+	}
+
+	//Accessor for x and y coordinates of block.
+	method int getBlockX() {return x;}
+	method int getBlockY() {return y;}
+}

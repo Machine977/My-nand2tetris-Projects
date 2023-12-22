@@ -1,0 +1,116 @@
+
+
+class TetrisGame {
+	function void run() {
+		//Game variables
+		var char key; //Current key being pressed
+		var boolean exit; //Exit flag
+		//Tetronimo Variables
+		var int x, y; //Starting x/y for tetronimo.
+		var Tetronimo CurrentTetronimo, NextTetronimo;
+		var int TetronimoCounter; //Counter to make the Tetronimoes rotate.
+		var int NextTetronimoDisplayX, NextTetronimoDisplayY;
+		var PlayingField TheField;
+		var int memaddr; //Memory address to check a if block exists or not.
+		var int temp;
+		var int time, timelimit; //Measure time
+		var int i;
+		var int tetronimoStopFlag; //Flag to stop the tetronimo when it reaches the bottom of the field (or hits a block).
+		
+		let TheField = PlayingField.new();
+		let x = TheField.getStartX();
+		let y = TheField.getStartY();
+		let NextTetronimoDisplayX = x + 192;
+		let NextTetronimoDisplayY = 48;
+		let time = 0;
+		let timelimit = 2000;
+		
+		let temp = TheField.getX();
+		
+		let memaddr = (24544 + (temp / 16));
+		//24544 //Bottom-right corner memory address.
+		
+		let TetronimoCounter = 1;
+		
+		let exit = false;
+		
+		let CurrentTetronimo = Tetronimo.LBlocknew(x, y);
+		let NextTetronimo = Tetronimo.OBlocknew(NextTetronimoDisplayX, NextTetronimoDisplayY);
+		
+		while (~exit) {
+			let time = time + 1;
+			if (time > timelimit) {
+				let tetronimoStopFlag = CurrentTetronimo.movedown();
+				let time = 0;
+			}
+			let key = 0; //Immediately exit the loop once the user lets go of the input key.
+			let key = Keyboard.keyPressed(); //Check if key is still held
+			if (~(key = 0)) {
+				if (key = 131) { do CurrentTetronimo.moveup(); do Sys.wait(100);}   // up arrow
+				if (key = 133) { let tetronimoStopFlag = CurrentTetronimo.movedown(); do Sys.wait(100);}   // down arrow
+				if (key = 130) { do CurrentTetronimo.moveleft(); do Sys.wait(100);}   // left arrow
+				if (key = 132) { do CurrentTetronimo.moveright(); do Sys.wait(100);}   // right arrow
+				if (key = 32) { do CurrentTetronimo.rotate(); do Sys.wait(100);}   // rotate
+				
+				if (key = 81)  { let exit = true; }     // q key
+				let time = time + 400;
+			}
+			if (tetronimoStopFlag = 1) { //Check if tetronimo can't move anymore.
+				//do Output.printString("Test");
+				do CurrentTetronimo.dispose();
+				let tetronimoStopFlag = 0;
+				
+				//Clear and make lines fall down.
+				do TheField.deleteline();
+				let i = 0;
+				while (i < 4) {
+					do TheField.shiftLineDown();
+					let i = i + 1;
+				}
+				
+				//Spawn next tetronimo
+				if (TetronimoCounter = 1) {
+					do NextTetronimo.delete();
+					let NextTetronimo = Tetronimo.LBlocknew(NextTetronimoDisplayX, NextTetronimoDisplayY);
+					let CurrentTetronimo = Tetronimo.OBlocknew(x, y);	
+				}
+				if (TetronimoCounter = 2) {
+					do NextTetronimo.delete();
+					let NextTetronimo = Tetronimo.SBlocknew(NextTetronimoDisplayX, NextTetronimoDisplayY);
+					let CurrentTetronimo = Tetronimo.LBlocknew(x, y);	
+				}
+				if (TetronimoCounter = 3) {
+					do NextTetronimo.delete();
+					let NextTetronimo = Tetronimo.JBlocknew(NextTetronimoDisplayX, NextTetronimoDisplayY);
+					let CurrentTetronimo = Tetronimo.SBlocknew(x, y);	
+				}
+				if (TetronimoCounter = 4) {
+					do NextTetronimo.delete();
+					let NextTetronimo = Tetronimo.TBlocknew(NextTetronimoDisplayX, NextTetronimoDisplayY);
+					let CurrentTetronimo = Tetronimo.JBlocknew(x, y);	
+				}
+				if (TetronimoCounter = 5) {
+					do NextTetronimo.delete();
+					let NextTetronimo = Tetronimo.IBlocknew(NextTetronimoDisplayX, NextTetronimoDisplayY);
+					let CurrentTetronimo = Tetronimo.TBlocknew(x, y);	
+				}
+				if (TetronimoCounter = 6) {
+					do NextTetronimo.delete();
+					let NextTetronimo = Tetronimo.ZBlocknew(NextTetronimoDisplayX, NextTetronimoDisplayY);
+					let CurrentTetronimo = Tetronimo.IBlocknew(x, y);	
+				}
+				if (TetronimoCounter = 7) {
+					do NextTetronimo.delete();
+					let NextTetronimo = Tetronimo.OBlocknew(NextTetronimoDisplayX, NextTetronimoDisplayY);
+					let CurrentTetronimo = Tetronimo.ZBlocknew(x, y);
+					let TetronimoCounter = 0;
+				}
+				let TetronimoCounter = TetronimoCounter + 1;			
+			}
+		}
+		return;
+		
+		//let CurrentTetronimo = Tetronimo.OBlocknew();
+
+	}
+}

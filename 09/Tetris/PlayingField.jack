@@ -1,0 +1,125 @@
+
+
+class PlayingField {
+	field int x, y, x1, y1; //Playing field corners (inside the field, not the corners of the borders themselves).
+	field int xstart, ystart; //Starting point for tetronimoes.
+	
+	field int rowbaseadr; //Base address for current row (row 1 is 16384, then 16416, etc).
+	field int currentaddress; //Current address for observation.
+	field int adrvalue;
+	field int i, rowreg;
+	field boolean flag;
+
+
+	constructor PlayingField new() {
+		let x = 144;
+		let x1 = 384;
+		let y = 0;
+		let y1 = 255;
+		let xstart = 240;
+		let ystart = 0;
+		
+		do PlayingField.draw(x - 8, y, x - 1, y1); //draw left column
+		do PlayingField.draw(x1, y, x1 + 7, y1); //draw right column
+		return this;
+	}
+
+	function void draw(int x, int y, int x1, int y1) {
+		do Screen.setColor(true);
+		do Screen.drawRectangle(x, y, x1, y1);
+		return;
+	}
+	
+	method void deleteline() {
+		let rowbaseadr = 16384; //Set the base address for the 1st line.
+		
+		//Go through every row in the playing field.
+		while (rowbaseadr < 24544) {
+			let flag = true;
+			//Check if line is eligible for deletion.
+			let rowreg = x;
+			while ((rowreg < x1) & (flag)) { //Keep moving right until the end of the row, as long as there was a block.
+				let currentaddress = ((rowbaseadr + (rowreg / 16)) + (32)); //Check not the first line (no data there), but the second.
+				let adrvalue = Memory.peek(currentaddress);
+				let rowreg = rowreg + 16; //Move to next block (one step to the right).
+				if (~(adrvalue = 32766)) {let flag = false;} //Set flag to false if there was no block.
+			}
+			
+			//Perform actual line deletion (one block at a time) if it was eligible.
+			if (flag) {
+				let rowreg = x; //Register # on current row.
+				//Remove full line
+				while (rowreg < x1) {
+					//Remove one block.
+					let i = 1;
+					while (i < 15) {
+						let currentaddress = ((rowbaseadr + (rowreg / 16)) + (32 * i)); //i is to iterate through each row of the block.
+						let adrvalue = Memory.peek(currentaddress);
+						if (adrvalue = 32766) {do Memory.poke(currentaddress, 0);}
+						let i = i + 1;
+					}
+					let rowreg = rowreg + 16; //Move to next block (one step to the right).
+				}
+			}
+			let rowbaseadr = (rowbaseadr + (16 * 32)); //Move one block down. One block is 16 rows, each row is 32 words.
+		}
+		let i = 0;
+		return;
+	}
+	
+	method void shiftLineDown() {
+		let rowbaseadr = 16384; //Set the base address for the 1st line.
+		
+		//Go through every row in the playing field.
+		while (rowbaseadr < 24544) {
+
+			//Check if line is fully white. If so, move all above lines down.			
+			let flag = true;
+			let rowreg = x; //Start at the leftmost block slot of the field.
+			while ((rowreg < x1) & (flag)) { //Keep moving right until the end of the row, as long as there was a block.
+				let currentaddress = ((rowbaseadr + (rowreg / 16)) + (32)); //Check not the first line (no data there), but the second to see if there's a block.
+				let adrvalue = Memory.peek(currentaddress);
+				let rowreg = rowreg + 16; //Move to next block (one step to the right).
+				if (adrvalue = 32766) {let flag = false;} //Set flag to false if there was a block.
+			}
+			
+			//Perform actual line move (one block at a time) if it was eligible.
+			if (flag) {
+				//Shift down full line
+				let rowreg = x;
+				while (rowreg < x1) {
+					//Shift down one block.
+					let currentaddress = ((((rowbaseadr + (rowreg / 16)) + 32) - 512)); //Store block to move down in currentaddress.
+					let adrvalue = Memory.peek(currentaddress); //Check if the block above was black or not. Store.
+					if (adrvalue = 32766) {
+						let i = 1;
+						//remove block to be shifted down.
+						while (i < 15) {
+							let currentaddress = (((rowbaseadr + (rowreg / 16)) + (32 * i)) - 512); //i is to iterate through each row of the block.
+							let adrvalue = Memory.peek(currentaddress);
+							if (adrvalue = 32766) {do Memory.poke(currentaddress, 0);}
+							let i = i + 1;
+						}
+						//draw block at new location.
+						let i = 1;
+						while (i < 15) {
+							let currentaddress = (((rowbaseadr + (rowreg / 16)) + (32 * i))); //i is to iterate through each row of the block.
+							let adrvalue = Memory.peek(currentaddress);
+							if (adrvalue = 0) {do Memory.poke(currentaddress, 32766);}
+							let i = i + 1;
+						}
+					}
+					let rowreg = rowreg + 16; //Move to next block (one step to the right).
+				}
+			}
+			let rowbaseadr = (rowbaseadr + (16 * 32)); //Move the cursor one block down. One block is 16 rows, each row is 32 words.
+		}
+		return;
+	}
+	
+	//Accessors
+	method int getStartX() {return xstart;}
+	method int getStartY() {return ystart;}
+	method int getX() {return x;}
+	method int getY() {return y;}
+}
